@@ -8,6 +8,12 @@ function processArray($arr) {
     echo "<br>Processing Array:<br><pre>" . var_export($arr, true) . "</pre>";
     echo "<br>Odds output:<br>";
     //TODO add logic here to echo out only odd values
+    /* ptp25 - 09/20/22 
+    This bit of code uses a foreach loop to go 
+    through each element in $arr and seeing if 
+    it is not divisible by 2, then echos the 
+    current element
+    */
     foreach($arr as $temp){
     
         if($temp % 2 == 1)
