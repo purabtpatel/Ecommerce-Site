@@ -7,15 +7,16 @@ function getTotal($arr) {
     echo "<br>Processing Array:<br><pre>" . var_export($arr, true) . "</pre>";
     $total = 0.00;
     /* ptp25 - 09/20/22 
-    Adding was straight forward, foreach loop to add current arr element to total
-    rounding stuff was difficult because rounding and parsing the total as a double 
-    didn't work as both display 0.1 for one of the totals while it should display as 0.10.
-    So I used number_format after rounding and the output is a string instead. 
+    Adding was straight forward, foreach loop to add current 
+    arr element to total rounding stuff was difficult because 
+    rounding and parsing the total as a double didn't work 
+    as both display 0.1 for one of the totals while it should 
+    display as 0.10. So I used number_format after rounding and 
+    the output is a string instead. 
     */
     //TODO do adding here
     foreach($arr as $temp){
     $total += $temp;
-    
     }
     
     $total = round($total, 2);
