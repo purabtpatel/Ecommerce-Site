@@ -14,7 +14,23 @@ function bePositive($arr) {
     of the integer or float given
     */
     foreach($arr as $temp){
-        echo(abs($temp) . "<br>");
+        switch (gettype($temp)){
+            case 'integer':
+                echo((integer)abs($temp) . "<br>");
+                break;
+            case 'double':
+                echo((double)abs($temp) . "<br>");
+                break;
+            case 'string':
+                echo("'" . (string)abs($temp) . "'" . "<br>");
+                break;
+        }
+            
+                
+
+       
+        
+
     }
 }
 echo "Problem 3: Be Positive<br>";
