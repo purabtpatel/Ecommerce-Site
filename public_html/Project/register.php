@@ -1,6 +1,6 @@
 <?php 
 require(__DIR__ . "/../../lib/functions.php");
-require_once(__DIR__ . "/db.php");
+require_once(__DIR__ . "/../../lib/db.php");
 ?>
 <form onsubmit="return validate(this)" method="POST">
 <div>
