@@ -1,5 +1,6 @@
 <?php 
 require(__DIR__ . "/../../lib/functions.php");
+require_once(__DIR__ . "/db.php");
 ?>
 <form onsubmit="return validate(this)" method="POST">
 <div>
@@ -57,7 +58,17 @@ if(isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm"
         $hasError = true;
     }
     if(!$hasError){
-        echo "Welcome, $email";
+        $hash = password_hash($password, PASSWORD_BCRYPT);
+        $db = getDB();
+        $stmt = $db->execute([":email" => $email, ":password" => $hash]);
+        try{
+            $r = $stmt->execute([":email" => $email, ":password" => $hash]);
+            echo "Successfully registered!";
+        } catch (Exception $e){
+            echo "There was an error registering <br>";
+            echo "<pre>" . var_export($e, true) . "</pre>";
+        }
     }
 }
+
 ?>
