@@ -60,7 +60,7 @@ if(isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm"
     if(!$hasError){
         $hash = password_hash($password, PASSWORD_BCRYPT);
         $db = getDB();
-        $stmt = $db->execute([":email" => $email, ":password" => $hash]);
+        $stmt = $db->prepare("INSERT INTO Users(email, password) VALUES (:email, :password)");
         try{
             $r = $stmt->execute([":email" => $email, ":password" => $hash]);
             echo "Successfully registered!";
