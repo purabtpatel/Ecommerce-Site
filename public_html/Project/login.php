@@ -33,9 +33,9 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         $hasError = true;
     }
     //sanitize
-    $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+    $email = sanitize_email($email);
     //validate
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (!is_valid_email($email)) {
         echo "Invalid email address";
         $hasError = true;
     }
@@ -48,17 +48,18 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         $hasError = true;
     }
     if (!$hasError) {
+        //TODO 4
         $db = getDB();
         $stmt = $db->prepare("SELECT email, password from Users where email = :email");
-        try{
+        try {
             $r = $stmt->execute([":email" => $email]);
-            if($r){
+            if ($r) {
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                if($user){
+                if ($user) {
                     $hash = $user["password"];
                     unset($user["password"]);
-                    if(password_verify($password, $hash)){
-                        echo "Welcome $email";
+                    if (password_verify($password, $hash)) {
+                        echo "Weclome $email";
                         $_SESSION["user"] = $user;
                         die(header("Location: home.php"));
                     } else {
@@ -68,12 +69,9 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                     echo "Email not found";
                 }
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             echo "<pre>" . var_export($e, true) . "</pre>";
         }
-        //TODO 4
-
-
     }
 }
 ?>
