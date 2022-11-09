@@ -1,3 +1,4 @@
+
 <?php
 require(__DIR__ . "/../../partials/nav.php");
 ?>
@@ -92,4 +93,5 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
 ?>
 <?php
 require(__DIR__ . "/../../partials/flash.php");
+
 ?>
