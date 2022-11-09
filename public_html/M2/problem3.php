@@ -28,9 +28,7 @@ function bePositive($arr) {
             
                 
 
-       
-        
-
+   
     }
 }
 echo "Problem 3: Be Positive<br>";
