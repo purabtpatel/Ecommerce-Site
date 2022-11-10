@@ -80,7 +80,7 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
     
     //check db for existing email
     $db = getDB();
-    $stmt = $db->prepare("SELECT id from Users WHERE email = :email LIMIT 1");
+    $stmt = $db->prepare("SELECT id from Users WHERE email = :email");
     $r = $stmt->execute();
     if ($r) {
         $e = $stmt->fetch(PDO::FETCH_ASSOC);
