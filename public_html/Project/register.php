@@ -79,9 +79,8 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
     }
     
     //check db for existing email
-    $db = getDB();
-    $stmt = $db->prepare("SELECT id from Users WHERE email = :email");
-    $r = $stmt->execute();
+    $stmt = $db->prepare("SELECT email from Users where email = :email");
+    $r = $r = $stmt->execute([":email" => $email]);
     if ($r) {
         $e = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($e) {
