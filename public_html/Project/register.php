@@ -79,6 +79,7 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
     }
     
     //check db for existing email
+    $db = getDB();
     $stmt = $db->prepare("SELECT email from Users where email = :email");
     $r = $r = $stmt->execute([":email" => $email]);
     if ($r) {
