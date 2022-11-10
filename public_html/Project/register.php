@@ -78,17 +78,27 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
         $hasError = true;
     }
     
-    //check db for existing email
+    //check db for existing email or username
     $db = getDB();
-    $stmt = $db->prepare("SELECT email from Users where email = :email");
-    $r = $r = $stmt->execute([":email" => $email]);
+    $stmt = $db->prepare("SELECT email, username from Users where email = :email OR username = :username");
+    $r = $stmt->execute([":email" => $email, ":username" => $username]);
     if ($r) {
-        $e = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($e) {
-            flash("Email already exists", "danger");
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($user) {
+            flash("Email or username already exists", "danger");
             $hasError = true;
         }
     }
+    // $stmt = $db->prepare("SELECT email from Users where email = :email");
+    // $r = $r = $stmt->execute([":email" => $email]);
+    // if ($r) {
+    //     $e = $stmt->fetch(PDO::FETCH_ASSOC);
+    //     if ($e) {
+    //         flash("Email already exists", "danger");
+    //         $hasError = true;
+    //     }
+    // }
+    
     if (!$hasError) {
         //TODO 4
         $hash = password_hash($password, PASSWORD_BCRYPT);
