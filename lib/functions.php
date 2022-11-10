@@ -13,7 +13,7 @@ require(__DIR__ . "/user_helpers.php");
 //TODO 4: Flash Message Helpers
 function flash($msg = "", $color = "info"){
     $message = ["text" => $msg, "color" => $color];
-    if(!isset($_SESSION["flash"])){
+    if(isset($_SESSION["flash"])){
         array_push($_SESSION["flash"], $message);
     } else {
         $_SESSION["flash"] = array();
