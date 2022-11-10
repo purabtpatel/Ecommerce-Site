@@ -25,7 +25,8 @@ require(__DIR__ . "/../../partials/nav.php");
     function validate(form) {
         //TODO 1: implement JavaScript validation
         //ensure it returns false for an error and true for success
-
+        //keep form values if there is an error
+        
         return true;
     }
 </script>
@@ -75,6 +76,18 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
     ) {
         flash("Passwords must match", "danger");
         $hasError = true;
+    }
+    
+    //check db for existing email
+    $db = getDB();
+    $stmt = $db->prepare("SELECT email from Users where email = " . $email);
+    $r = $stmt->execute();
+    if ($r) {
+        $e = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($e) {
+            flash("Email already exists", "danger");
+            $hasError = true;
+        }
     }
     if (!$hasError) {
         //TODO 4
