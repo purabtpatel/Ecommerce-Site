@@ -13,18 +13,56 @@
 .alert-info {
     background-color: teal;
 }
-/* style for forms */
-.form-control {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+
+/* styles for nav, form, buttons, etc. */
+/* Path: public_html/Project/styles.css */
+nav {
+    background-color: rgb(200, 182, 200);
 }
-/* style for nav */
-.nav {
-    background-color: #f8f8f8;
-    border-color: #e7e7e7;
-    border-radius: 4px;
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.075) inset;
-    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+
+form {
+    background-color: lightblue;
 }
+
+button {
+    background-color: grey;
+}
+
+/* styles for table, table header, table row, table data, etc. */
+/* Path: public_html/Project/styles.css */
+table {
+    background-color: white;
+}
+
+th {
+    background-color: orange;
+}
+
+tr {
+    background-color: lightgreen;
+}
+
+td {
+    background-color: lightgrey;
+}
+
+/* styles for footer, footer header, footer row, footer data, etc. */
+/* Path: public_html/Project/styles.css */
+footer {
+    background-color: black;
+}
+
+footer h3 {
+    background-color: pink;
+}
+
+footer p {
+    background-color: darkgrey;
+}
+
+footer a {
+    background-color: brown;
+}
+
+/* styles for media queries */
+/* Path: public_html/Project/styles.css */
