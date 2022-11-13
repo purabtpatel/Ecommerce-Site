@@ -19,14 +19,21 @@
 nav {
     background-color: rgb(200, 182, 200);
 }
+/* remove bullet points from nav */
+nav ul {
+    list-style-type: none;
+}
+/* make nav links inline */
+nav ul li {
+    display: inline;
+}
+
 
 form {
     background-color: lightblue;
 }
 
-button {
-    background-color: grey;
-}
+
 
 /* styles for table, table header, table row, table data, etc. */
 /* Path: public_html/Project/styles.css */
@@ -46,23 +53,3 @@ td {
     background-color: lightgrey;
 }
 
-/* styles for footer, footer header, footer row, footer data, etc. */
-/* Path: public_html/Project/styles.css */
-footer {
-    background-color: black;
-}
-
-footer h3 {
-    background-color: pink;
-}
-
-footer p {
-    background-color: darkgrey;
-}
-
-footer a {
-    background-color: brown;
-}
-
-/* styles for media queries */
-/* Path: public_html/Project/styles.css */
