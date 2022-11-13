@@ -23,7 +23,7 @@
   - [ ] \(11/12/22) User will be able to login to their account
     -  Link to related .md file: https://github.com/purabtpatel/IT202-009/pull/37
   - [ ] \(mm/dd/yyyy of completion) User will be able to logout
-    -  Link to related .md file: [Link Name](link url)
+    -  Link to related .md file: 
   - [ ] \(mm/dd/yyyy of completion) Basic security rules implemented
     -  Link to related .md file: https://github.com/purabtpatel/IT202-009/pull/38
   - [ ] \(mm/dd/yyyy of completion) Basic Roles implemented
