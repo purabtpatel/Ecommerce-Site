@@ -30,4 +30,14 @@ function getMessages(){
     return array();
 }
 
+function has_role($role){
+    if(isset($_SESSION["user"]) && isset($_SESSION["user"]["roles"])){
+        foreach($_SESSION["user"]["roles"] as $r){
+            if($r["name"] === $role){
+                return true;
+            }
+        }
+    }
+    return false;
+}
 ?>
