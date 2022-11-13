@@ -30,4 +30,6 @@ function getMessages(){
     return array();
 }
 
+require(__DIR__ . "/get_url.php");
+
 ?>
