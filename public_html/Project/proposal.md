@@ -32,10 +32,10 @@
     -  Link to related .md file: https://github.com/purabtpatel/IT202-009/pull/40
   - [x] \(11/13/22) Any output messages/errors should be "user friendly"
     -  Link to related .md file: https://github.com/purabtpatel/IT202-009/pull/41
-  - [ ] \(mm/dd/yyyy of completion) User will be able to see their profile
+  - [x] \(11/13/22) User will be able to see their profile
+    -  Link to related .md file:
+  - [ ] \(mm/dd/yyyy of completion) User will be able to edit their profile
     -  Link to related .md file: [Link Name](link url)
-   -  [ ] \(mm/dd/yyyy of completion) User will be able to edit their profile
-       -  Link to related .md file: [Link Name](link url)
 - Milestone 2
   - (duplicate template here for Milestone 1 features)
 - Milestone 3
