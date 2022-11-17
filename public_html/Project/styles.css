@@ -1,0 +1,55 @@
+.alert-success {
+    background-color: green
+}
+
+.alert-warning {
+    background-color: yellow;
+}
+
+.alert-danger {
+    background-color: red;
+}
+
+.alert-info {
+    background-color: teal;
+}
+
+/* styles for nav, form, buttons, etc. */
+/* Path: public_html/Project/styles.css */
+nav {
+    background-color: rgb(200, 182, 200);
+}
+/* remove bullet points from nav */
+nav ul {
+    list-style-type: none;
+}
+/* make nav links inline */
+nav ul li {
+    display: inline;
+}
+
+
+form {
+    background-color: lightblue;
+}
+
+
+
+/* styles for table, table header, table row, table data, etc. */
+/* Path: public_html/Project/styles.css */
+table {
+    background-color: white;
+}
+
+th {
+    background-color: orange;
+}
+
+tr {
+    background-color: lightgreen;
+}
+
+td {
+    background-color: lightgrey;
+}
+

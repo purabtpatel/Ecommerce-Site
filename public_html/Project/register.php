@@ -1,6 +1,9 @@
 
 <?php
 require(__DIR__ . "/../../partials/nav.php");
+
+reset_session();
+
 ?>
 <form onsubmit="return validate(this)" method="POST">
     <div>
@@ -26,6 +29,8 @@ require(__DIR__ . "/../../partials/nav.php");
         //TODO 1: implement JavaScript validation
         //ensure it returns false for an error and true for success
 
+        //keep form values if there is an error
+        
         return true;
     }
 </script>
@@ -76,6 +81,29 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
         flash("Passwords must match", "danger");
         $hasError = true;
     }
+
+    
+    //check db for existing email or username
+    $db = getDB();
+    $stmt = $db->prepare("SELECT email, username from Users where email = :email OR username = :username");
+    $r = $stmt->execute([":email" => $email, ":username" => $username]);
+    if ($r) {
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($user) {
+            flash("Email or username already exists", "danger");
+            $hasError = true;
+        }
+    }
+    // $stmt = $db->prepare("SELECT email from Users where email = :email");
+    // $r = $r = $stmt->execute([":email" => $email]);
+    // if ($r) {
+    //     $e = $stmt->fetch(PDO::FETCH_ASSOC);
+    //     if ($e) {
+    //         flash("Email already exists", "danger");
+    //         $hasError = true;
+    //     }
+    // }
+    
     if (!$hasError) {
         //TODO 4
         $hash = password_hash($password, PASSWORD_BCRYPT);
