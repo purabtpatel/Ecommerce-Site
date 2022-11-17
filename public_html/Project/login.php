@@ -48,6 +48,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         flash("password must not be empty");
         $hasError = true;
     }
+
     if (strlen($password)<8) {
         flash("Password too short");
         $hasError = true;
@@ -60,6 +61,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         $db = getDB();
         $stmt = $db->prepare("SELECT id, email, username, password from Users 
         where email = :email");
+
         try {
             $r = $stmt->execute([":email" => $email]);
             if ($r) {
@@ -68,6 +70,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                     $hash = $user["password"];
                     unset($user["password"]);
                     if (password_verify($password, $hash)) {
+
                         //flash("Weclome $email");
                         $_SESSION["user"] = $user; //sets our session data from db
                         try {
@@ -87,6 +90,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                             $_SESSION["user"]["roles"] = []; //no roles
                         }
                         flash("Welcome, " . get_username());
+
                         die(header("Location: home.php"));
                     } else {
                         flash("Invalid password");
@@ -101,5 +105,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     }
 }
 ?>
+
 <?php 
 require(__DIR__."/../../partials/flash.php");
+

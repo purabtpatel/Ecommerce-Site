@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . "/../lib/functions.php");
+
 //Note: this is to resolve cookie issues with port numbers
 $domain = $_SERVER["HTTP_HOST"];
 if (strpos($domain, ":")) {
@@ -21,8 +22,6 @@ if (($localWorks && $domain == "localhost") || $domain != "localhost") {
     ]);
 }
 session_start();
-
-
 ?>
 <!-- include css and js files -->
 <link rel="stylesheet" href="<?php echo get_url('styles.css'); ?>">

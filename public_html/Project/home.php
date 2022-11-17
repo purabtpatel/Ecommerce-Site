@@ -5,6 +5,7 @@ require(__DIR__ . "/../../partials/nav.php");
 <?php
 if (is_logged_in()) {
     flash("Welcome, " . get_username());
+
 } else {
     flash("You're not logged in");
 }

@@ -1,7 +1,9 @@
 
 <?php
 require(__DIR__ . "/../../partials/nav.php");
+
 reset_session();
+
 ?>
 <form onsubmit="return validate(this)" method="POST">
     <div>
@@ -26,6 +28,7 @@ reset_session();
     function validate(form) {
         //TODO 1: implement JavaScript validation
         //ensure it returns false for an error and true for success
+
         //keep form values if there is an error
         
         return true;
@@ -78,6 +81,7 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
         flash("Passwords must match", "danger");
         $hasError = true;
     }
+
     
     //check db for existing email or username
     $db = getDB();
