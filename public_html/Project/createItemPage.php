@@ -43,15 +43,15 @@ if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["categ
     $description = $_POST["description"];
     $unit_price = $_POST["unit_price"];
     $stock = $_POST["stock"];
-    $user = get_user_id();
+    
     $db = getDB();
-    $stmt = $db->prepare("INSERT INTO Products (name, description, unit_price, stock, user_id) VALUES(:name, :description, :unit_price, :stock, :user)");
+    $stmt = $db->prepare("INSERT INTO Products (name, description, unit_price, stock) VALUES(:name, :description, :unit_price, :stock)");
     $r = $stmt->execute([
         ":name" => $name,
         ":description" => $description,
         ":unit_price" => $unit_price,
         ":stock" => $stock,
-        ":user" => $user
+        
     ]);
     if ($r) {
         flash("Created successfully with id: " . $db->lastInsertId());
