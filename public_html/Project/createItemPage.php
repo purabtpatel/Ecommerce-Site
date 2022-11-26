@@ -24,6 +24,11 @@ require(__DIR__ . "/../../partials/nav.php");
             <label class="form-label" for="stock">Stock</label>
             <input class="form-control" type="number" id="stock" name="stock" required />
         </div>
+        <div class="mb-3">
+            <label class="form-label" for="visibility">Visibility</label>
+            <input class="form-control" type="checkbox" id="visibility" name="visibility" required />
+        </div>
+
         <input type="submit" class="mt-3 btn btn-primary" value="Submit" />
     </form>
 </div>
@@ -38,19 +43,26 @@ require(__DIR__ . "/../../partials/nav.php");
 //     die(header("Location: " . get_url("home.php")));
 // }
 
-if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["category"]) && isset($_POST["unit_price"]) && isset($_POST["stock"])) {
+if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["category"]) && isset($_POST["unit_price"]) && isset($_POST["stock"]) && isset($_POST["visibility"])) {
     $name = $_POST["name"];
     $description = $_POST["description"];
     $unit_price = $_POST["unit_price"];
     $stock = $_POST["stock"];
+    if(isset($_POST["visibility"])){
+        $visibility = 1;
+    }
+    else{
+        $visibility = 0;
+    }
     
     $db = getDB();
-    $stmt = $db->prepare("INSERT INTO Products (name, description, unit_price, stock) VALUES(:name, :description, :unit_price, :stock)");
+    $stmt = $db->prepare("INSERT INTO Products (name, description, unit_price, stock, visibility) VALUES(:name, :description, :unit_price, :stock, :visibility)");
     $r = $stmt->execute([
         ":name" => $name,
         ":description" => $description,
         ":unit_price" => $unit_price,
         ":stock" => $stock,
+        ":visibility" => $visibility
         
     ]);
     if ($r) {
