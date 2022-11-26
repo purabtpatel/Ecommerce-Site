@@ -43,7 +43,7 @@ require(__DIR__ . "/../../partials/nav.php");
 //     die(header("Location: " . get_url("home.php")));
 // }
 
-if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["category"]) && isset($_POST["unit_price"]) && isset($_POST["stock"]) && isset($_POST["visibility"])) {
+if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["category"]) && isset($_POST["unit_price"]) && isset($_POST["stock"])) {
     $name = $_POST["name"];
     $description = $_POST["description"];
     $unit_price = $_POST["unit_price"];
