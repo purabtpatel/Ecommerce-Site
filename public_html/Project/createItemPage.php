@@ -17,16 +17,12 @@ require(__DIR__ . "/../../partials/nav.php");
             <input class="form-control" id="category" name="category" required />
         </div>
         <div class="mb-3">
-            <label class="form-label" for="price">Price</label>
-            <input class="form-control" id="price" name="price" required />
+            <label class="form-label" for="unit_price">unit_price</label>
+            <input class="form-control" type="number" step="any" id="unit_price" name="unit_price" required />
         </div>
         <div class="mb-3">
             <label class="form-label" for="stock">Stock</label>
-            <input class="form-control" id="stock" name="stock" required />
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="visibility">Visibility</label>
-            <input class="form-control" id="visibility" name="visibility" required />
+            <input class="form-control" type="number" id="stock" name="stock" required />
         </div>
         <input type="submit" class="mt-3 btn btn-primary" value="Submit" />
     </form>
@@ -42,18 +38,18 @@ require(__DIR__ . "/../../partials/nav.php");
 //     die(header("Location: " . get_url("home.php")));
 // }
 
-if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["category"]) && isset($_POST["price"]) && isset($_POST["stock"]) && isset($_POST["visibility"])) {
+if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["category"]) && isset($_POST["unit_price"]) && isset($_POST["stock"])) {
     $name = $_POST["name"];
     $description = $_POST["description"];
-    $price = $_POST["price"];
+    $unit_price = $_POST["unit_price"];
     $stock = $_POST["stock"];
     $user = get_user_id();
     $db = getDB();
-    $stmt = $db->prepare("INSERT INTO Products (name, description, price, stock, user_id) VALUES(:name, :description, :price, :stock, :user)");
+    $stmt = $db->prepare("INSERT INTO Products (name, description, unit_price, stock, user_id) VALUES(:name, :description, :unit_price, :stock, :user)");
     $r = $stmt->execute([
         ":name" => $name,
         ":description" => $description,
-        ":price" => $price,
+        ":unit_price" => $unit_price,
         ":stock" => $stock,
         ":user" => $user
     ]);
