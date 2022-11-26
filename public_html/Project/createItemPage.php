@@ -26,7 +26,7 @@ require(__DIR__ . "/../../partials/nav.php");
         </div>
         <div class="mb-3">
             <label class="form-label" for="visibility">Visibility</label>
-            <input class="form-control" type="checkbox" id="visibility" name="visibility" />
+            <input type="checkbox" id="visibility" name="visibility" />
         </div>
 
         <input type="submit" class="mt-3 btn btn-primary" value="Submit" />
