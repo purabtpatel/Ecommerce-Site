@@ -11,10 +11,19 @@ require(__DIR__ . "/../../partials/nav.php");
             <label for="category">Category</label>
             <select class="form-control" id="category" name="category">
                 <option value="All">All</option>
+                <option value="Other">Other</option>
                 <option value="Food">Food</option>
                 <option value="Clothing">Clothing</option>
                 <option value="Electronics">Electronics</option>
-                <option value="Other">Other</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Toys">Toys</option>
+                <option value="Books">Books</option>
+                <option value="Sports">Sports</option>
+                <option value="Tools">Tools</option>
+                <option value="Games">Games</option>
+                <option value="Movies">Movies</option>
+                <option value="Music">Music</option>
+                <option value="Home">Home</option>
             </select>
         </div>
         <div class="form-group">
@@ -87,7 +96,7 @@ require(__DIR__ . "/../../partials/nav.php");
     }
     //only get last 10 products by created date
     $query = $query . " ORDER BY created DESC LIMIT 10";
-    
+
     $stmt = $db->prepare($query);
     $params = array();
     if(isset($_GET["category"]) && $_GET["category"] != "All"){

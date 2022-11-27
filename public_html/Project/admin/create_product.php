@@ -14,7 +14,21 @@ require(__DIR__ . "/../../../partials/nav.php");
         </div>
         <div class="mb-3">
             <label class="form-label" for="category">Category</label>
-            <input class="form-control" id="category" name="category" required />
+            <select class="form-control" id="category" name="category">
+                <option value="Other">Other</option>
+                <option value="Food">Food</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Toys">Toys</option>
+                <option value="Books">Books</option>
+                <option value="Sports">Sports</option>
+                <option value="Tools">Tools</option>
+                <option value="Games">Games</option>
+                <option value="Movies">Movies</option>
+                <option value="Music">Music</option>
+                <option value="Home">Home</option>
+            </select>
         </div>
         <div class="mb-3">
             <label class="form-label" for="unit_price">unit_price</label>
@@ -46,6 +60,7 @@ if (!has_role("Admin") && !has_role("Shop Owner")) {
 if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["category"]) && isset($_POST["unit_price"]) && isset($_POST["stock"])) {
     $name = $_POST["name"];
     $description = $_POST["description"];
+    $category = $_POST["category"];
     $unit_price = $_POST["unit_price"];
     $stock = $_POST["stock"];
     if(isset($_POST["visibility"])){
@@ -56,10 +71,11 @@ if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["categ
     }
     
     $db = getDB();
-    $stmt = $db->prepare("INSERT INTO Products (name, description, unit_price, stock, visibility) VALUES(:name, :description, :unit_price, :stock, :visibility)");
+    $stmt = $db->prepare("INSERT INTO Products (name, description, unit_price, stock, visibility) VALUES(:name, :description, :category ,:unit_price, :stock, :visibility)");
     $r = $stmt->execute([
         ":name" => $name,
         ":description" => $description,
+        ":category" => $category,
         ":unit_price" => $unit_price,
         ":stock" => $stock,
         ":visibility" => $visibility
