@@ -71,7 +71,7 @@ if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["categ
     }
     
     $db = getDB();
-    $stmt = $db->prepare("INSERT INTO Products (name, description, unit_price, stock, visibility) VALUES(:name, :description, :category ,:unit_price, :stock, :visibility)");
+    $stmt = $db->prepare("INSERT INTO Products (name, description, category, unit_price, stock, visibility) VALUES(:name, :description, :category ,:unit_price, :stock, :visibility)");
     $r = $stmt->execute([
         ":name" => $name,
         ":description" => $description,
