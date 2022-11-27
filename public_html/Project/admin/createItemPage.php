@@ -38,10 +38,10 @@ require(__DIR__ . "/../../partials/nav.php");
     }
 </script>
 <?php
-// if (!has_role("Admin") && !has_role("Shop Owner")) {
-//     flash("You don't have permission to view this page", "warning");
-//     die(header("Location: " . get_url("home.php")));
-// }
+if (!has_role("Admin") && !has_role("Shop Owner")) {
+    flash("You don't have permission to view this page", "warning");
+    die(header("Location: " . get_url("home.php")));
+}
 
 if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["category"]) && isset($_POST["unit_price"]) && isset($_POST["stock"])) {
     $name = $_POST["name"];
