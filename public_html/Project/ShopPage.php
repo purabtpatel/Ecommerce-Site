@@ -43,29 +43,7 @@ require(__DIR__ . "/../../partials/nav.php");
     
     $db = getDB();
     $query = "SELECT * FROM Products WHERE visibility = 1";
-    
-    //filter results by category, price, name
-    // if(isset($_GET["category"]) && isset($_GET["price"]) && isset($_GET["name"])){
-    //     $category = $_GET["category"];
-    //     $price = $_GET["price"];
-    //     $name = $_GET["name"];
-    //     if($category != "All"){
-    //         $stmt = $db->prepare("SELECT * FROM Products WHERE category = :category AND visibility = 1");
-    //         $r = $stmt->execute([":category"=>$category]);
-    //         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    //     }
-    //     if($price != "All"){
-    //         $price = explode("-", $price);
-    //         $stmt = $db->prepare("SELECT * FROM Products WHERE unit_price >= :min AND unit_price <= :max AND visibility = 1");
-    //         $r = $stmt->execute([":min"=>$price[0], ":max"=>$price[1]]);
-    //         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    //     }
-    //     if($name != ""){
-    //         $stmt = $db->prepare("SELECT * FROM Products WHERE name LIKE :name AND visibility = 1");
-    //         $r = $stmt->execute([":name"=>"%$name%"]);
-    //         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    //     }
-    // }
+
     if(isset($_GET["category"])){
         $category = $_GET["category"];
         if($category != "All"){
@@ -98,7 +76,6 @@ require(__DIR__ . "/../../partials/nav.php");
     }
     $r = $stmt->execute($params);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    //sort results by price
     ?>
     
     <!-- show all products -->
