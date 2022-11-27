@@ -1,5 +1,5 @@
 <?php
-require(__DIR__ . "/../../partials/nav.php");
+require(__DIR__ . "/../../../partials/nav.php");
 ?>
 <div class="container-fluid">
     <h1>Create New Product</h1>
@@ -75,6 +75,6 @@ if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["categ
 ?>
 
 <?php
-require(__DIR__."/../../partials/flash.php");
+require(__DIR__."/../../../partials/flash.php");
 ?>
 
