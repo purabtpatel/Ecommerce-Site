@@ -29,17 +29,8 @@ require(__DIR__ . "/../../partials/nav.php");
         <div class="form-group">
             <label for="price">Price</label>
             <select class="form-control" id="price" name="price">
-                <option value="All">All</option>
-                <option value="0-10">$0 - $10</option>
-                <option value="10-20">$10 - $20</option>
-                <option value="20-30">$20 - $30</option>
-                <option value="30-40">$30 - $40</option>
-                <option value="40-50">$40 - $50</option>
-                <option value="50-60">$50 - $60</option>
-                <option value="60-70">$60 - $70</option>
-                <option value="70-80">$70 - $80</option>
-                <option value="80-90">$80 - $90</option>
-                <option value="90-100">$90 - $100</option>
+                <option value="ascend">Lowest to Highest</option>
+                <option value="descend">Highest to Lowest</option>
             </select>
         </div>
         <div class="form-group mb-3">
@@ -81,38 +72,35 @@ require(__DIR__ . "/../../partials/nav.php");
             $query = $query . " AND category = :category";
         }
     }
-    if(isset($_GET["price"])){
-        $price = $_GET["price"];
-        if($price != "All"){
-            $price = explode("-", $price);
-            $query = $query . " AND unit_price >= :min AND unit_price <= :max";
-        }
-    }
     if(isset($_GET["name"])){
         $name = $_GET["name"];
         if($name != ""){
             $query = $query . " AND name LIKE :name";
         }
     }
-    //only get last 10 products by created date
-    $query = $query . " ORDER BY created DESC LIMIT 10";
-
+    if(isset($_GET["price"])){
+        $price = $_GET["price"];
+        //only get last 10 products by created date
+        if($price == "ascend"){
+            $query = $query . " ORDER BY unit_price ASC, created DESC LIMIT 10";
+        }
+        else if($price == "descend"){
+            $query = $query . " ORDER BY unit_price DESC, created DESC LIMIT 10";
+        }
+    }
     $stmt = $db->prepare($query);
     $params = array();
     if(isset($_GET["category"]) && $_GET["category"] != "All"){
         $params[":category"] = $_GET["category"];
-    }
-    if(isset($_GET["price"]) && $_GET["price"] != "All"){
-        $params[":min"] = $price[0];
-        $params[":max"] = $price[1];
     }
     if(isset($_GET["name"]) && $_GET["name"] != ""){
         $params[":name"] = "%$name%";
     }
     $r = $stmt->execute($params);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+    //sort results by price
     ?>
+    
     <!-- show all products -->
     <div class="row">
         <?php foreach ($results as $r): ?>
