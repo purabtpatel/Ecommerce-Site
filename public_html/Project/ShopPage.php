@@ -1,6 +1,7 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
 ?>
+<!-- ptp25 11/27/2022 -->
 <!-- show all Products from products table with visibility of true-->
 
 <div class="container-fluid">
