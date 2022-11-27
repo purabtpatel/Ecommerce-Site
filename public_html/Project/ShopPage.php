@@ -66,6 +66,9 @@ require(__DIR__ . "/../../partials/nav.php");
             $query = $query . " ORDER BY unit_price DESC, created DESC LIMIT 10";
         }
     }
+    else{
+        $query = $query . " ORDER BY created DESC LIMIT 10";
+    }
     $stmt = $db->prepare($query);
     $params = array();
     if(isset($_GET["category"]) && $_GET["category"] != "All"){
