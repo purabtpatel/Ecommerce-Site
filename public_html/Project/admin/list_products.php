@@ -1,5 +1,5 @@
 <?php 
-require __DIR__ . "/../partials/nav.php";
+require __DIR__ . "/../../../partials/nav.php";
 if(!has_role("Admin") && !has_role("Shop Owner")){
     flash("You don't have permission to access this page");
     die(header("Location: login.php"));
@@ -31,5 +31,5 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 <?php
-require(__DIR__."/../../partials/flash.php");
+require(__DIR__."/../../../partials/flash.php");
 ?>
