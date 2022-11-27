@@ -19,8 +19,10 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="card-body">
                         <h5 class="card-title"><?php safer_echo($r["name"]); ?></h5>
                         <p class="card-text"><?php safer_echo($r["description"]); ?></p>
+                        <p class="card-text">Category: <?php safer_echo($r["category"]); ?></p>
                         <p class="card-text">$<?php safer_echo($r["unit_price"]); ?></p>
                         <p class="card-text">Stock: <?php safer_echo($r["stock"]); ?></p>
+                        <p class="card-text">Visibility: <?php safer_echo($r["visibility"]); ?></p>
                     </div>
                     <div class="card-footer">
                         <a href="ViewCart.php?id=<?php safer_echo($r["id"]); ?>" class="btn btn-primary">Add to Cart</a>
