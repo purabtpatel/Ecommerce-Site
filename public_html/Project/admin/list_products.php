@@ -11,6 +11,7 @@ $stmt = $db->prepare("SELECT * FROM Products ORDER BY id DESC");
 $r = $stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+<h1>Products</h1>
 <div class="row">
         <?php foreach ($results as $r): ?>
             <div class="col-4">
