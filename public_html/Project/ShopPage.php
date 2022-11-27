@@ -5,108 +5,83 @@ require(__DIR__ . "/../../partials/nav.php");
 
 <div class="container-fluid">
     <h1>Shop</h1>
-    <div class="list-group">
-        <!-- filter by category -->
-        <div class="list-group-item">
-            <form method="GET">
-                <div class="form-group">
-                <label for="category">Category</label>
-                <select class="form-control" id="category" name="category">
-                    <option value="All">All</option>
-                    <option value="Food">Food</option>
-                    <option value="Clothing">Clothing</option>
-                    <option value="Electronics">Electronics</option>
-                    <option value="Other">Other</option>
-                </select>
-                <input type="submit" class="btn btn-primary" value="Filter"/>
-            </form>
+    <!-- filter by category, price, and name -->
+    <form method="GET">
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select class="form-control" id="category" name="category">
+                <option value="All">All</option>
+                <option value="Food">Food</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Other">Other</option>
+            </select>
         </div>
-        <!-- filter by price -->
-        <div class="list-group-item">
-            <form method="GET">
-                <div class="form-group">
-                <label for="price">Price</label>
-                <select class="form-control" id="price" name="price">
-                    <option value="All">All</option>
-                    <option value="0-10">$0 - $10</option>
-                    <option value="10-20">$10 - $20</option>
-                    <option value="20-30">$20 - $30</option>
-                    <option value="30-40">$30 - $40</option>
-                    <option value="40-50">$40 - $50</option>
-                    <option value="50-60">$50 - $60</option>
-                    <option value="60-70">$60 - $70</option>
-                    <option value="70-80">$70 - $80</option>
-                    <option value="80-90">$80 - $90</option>
-                    <option value="90-100">$90 - $100</option>
-                </select>
-                <input type="submit" class="btn btn-primary" value="Filter"/>
-            </form>
+        <div class="form-group">
+            <label for="price">Price</label>
+            <select class="form-control" id="price" name="price">
+                <option value="All">All</option>
+                <option value="0-10">$0 - $10</option>
+                <option value="10-20">$10 - $20</option>
+                <option value="20-30">$20 - $30</option>
+                <option value="30-40">$30 - $40</option>
+                <option value="40-50">$40 - $50</option>
+                <option value="50-60">$50 - $60</option>
+                <option value="60-70">$60 - $70</option>
+                <option value="70-80">$70 - $80</option>
+                <option value="80-90">$80 - $90</option>
+                <option value="90-100">$90 - $100</option>
+            </select>
         </div>
-        <!-- search by name -->
-        <div class="list-group-item">
-            <form method="GET">
-                <div class="form-group">
-                <label for="name">Name</label>
-                <input class="form-control" id="name" name="name"/>
-                <input type="submit" class="btn btn-primary" value="Search"/>
-            </form>
+        <div class="form-group mb-3">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Search by name">
         </div>
-        <?php
-        //limit results to 10 most recent products by created date
+        <input type="submit" class="btn btn-primary" value="Search" />
+    </form>
+    <?php
+    if (isset($_GET["category"]) && isset($_GET["price"]) && isset($_GET["name"])) {
+        $category = $_GET["category"];
+        $price = $_GET["price"];
+        $name = $_GET["name"];
         $db = getDB();
-        $stmt = $db->prepare("SELECT * FROM Products WHERE visibility = 1 ORDER BY created DESC LIMIT 10");
+        $stmt = $db->prepare("SELECT * FROM Products WHERE visibility = 1 AND category = :category AND name LIKE :name AND unit_price BETWEEN :price1 AND :price2");
+        $r = $stmt->execute([
+            ":category" => $category,
+            ":name" => "%" . $name . "%",
+            ":price1" => $price1,
+            ":price2" => $price2
+        ]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        $db = getDB();
+        $stmt = $db->prepare("SELECT * FROM Products WHERE visibility = 1");
         $r = $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        //if category is set, filter by category
-        if(isset($_GET["category"])){
-            $category = $_GET["category"];
-            if($category != "All"){
-                $stmt = $db->prepare("SELECT * FROM Products WHERE visibility = 1 AND category = :category ORDER BY created DESC LIMIT 10");
-                $r = $stmt->execute([":category"=>$category]);
-                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            }
-        }
-        //if search is set, filter by search
-        if(isset($_GET["search"])){
-            $search = $_GET["search"];
-            $stmt = $db->prepare("SELECT * FROM Products WHERE visibility = 1 AND name LIKE :search ORDER BY created DESC LIMIT 10");
-            $r = $stmt->execute([":search"=>"%$search%"]);
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-        //if sort is set, sort by sort
-        if(isset($_GET["sort"])){
-            $sort = $_GET["sort"];
-            if($sort == "price"){
-                $stmt = $db->prepare("SELECT * FROM Products WHERE visibility = 1 ORDER BY unit_price DESC LIMIT 10");
-                $r = $stmt->execute();
-                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            }
-            if($sort == "name"){
-                $stmt = $db->prepare("SELECT * FROM Products WHERE visibility = 1 ORDER BY name ASC LIMIT 10");
-                $r = $stmt->execute();
-                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            }
-        }
-       
-        
-        foreach ($results as $row) {
-            echo "<div class='list-group-item'>";
-            echo "<div class='row'>";
-            echo "<div class='col'>";
-            echo "<div>Name: " . $row["name"] . "</div>";
-            echo "<div>Description: " . $row["description"] . "</div>";
-            echo "<div>Category: " . $row["category"] . "</div>";
-            echo "<div>Unit Price: " . $row["unit_price"] . "</div>";
-            echo "<div>Stock: " . $row["stock"] . "</div>";
-            echo "</div>";
-            echo "<div class='col'>";
-            echo "<a type='button' href='edit_product.php?id=" . $row["id"] . "' class='btn btn-primary'>Edit</a>";
-            echo "<a type='button' href='delete_product.php?id=" . $row["id"] . "' class='btn btn-danger'>Delete</a>";
-            echo "</div>";
-            echo "</div>";
-            echo "</div>";
-        }
-        ?>
+    }
+    ?>
+    <!-- show all products -->
+    <div class="row">
+        <?php foreach ($results as $r): ?>
+            <div class="col-4">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="<?php safer_echo($r["image"]); ?>" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title
+                        <?php if ($r["quantity"] <= 0): ?>
+                            text-danger
+                        <?php endif; ?>
+                        "><?php safer_echo($r["name"]); ?></h5>
+                        <p class="card-text"><?php safer_echo($r["description"]); ?></p>
+                        <p class="card-text">$<?php safer_echo($r["unit_price"]); ?></p>
+                        <p class="card-text">Quantity: <?php safer_echo($r["quantity"]); ?></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="ViewCart.php?id=<?php safer_echo($r["id"]); ?>" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
     </div>
 </div>
 <?php
