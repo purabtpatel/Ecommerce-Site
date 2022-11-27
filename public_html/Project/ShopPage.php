@@ -67,7 +67,7 @@ require(__DIR__ . "/../../partials/nav.php");
         }
     }
     else{
-        $query = $query . " ORDER BY created DESC LIMIT 10";
+        $query = $query . " ORDER BY unit_price ASC, created DESC LIMIT 10";
     }
     $stmt = $db->prepare($query);
     $params = array();
