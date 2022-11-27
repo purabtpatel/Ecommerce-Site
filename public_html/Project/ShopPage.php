@@ -42,15 +42,15 @@ require(__DIR__ . "/../../partials/nav.php");
     <?php
     if (isset($_GET["category"]) && isset($_GET["price"]) && isset($_GET["name"])) {
         $category = $_GET["category"];
-        $price = $_GET["price"];
+        $price = explode("-", $_GET["price"]);
         $name = $_GET["name"];
         $db = getDB();
         $stmt = $db->prepare("SELECT * FROM Products WHERE visibility = 1 AND category = :category AND name LIKE :name AND unit_price BETWEEN :price1 AND :price2");
         $r = $stmt->execute([
             ":category" => $category,
             ":name" => "%" . $name . "%",
-            ":price1" => $price1,
-            ":price2" => $price2
+            ":price1" => $price[0],
+            ":price2" => $price[1]
         ]);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } else {
