@@ -60,6 +60,7 @@ session_start();
                         </a>
                         <ul class="dropdown-menu bg-warning" aria-labelledby="productsDropdown">
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/create_product.php'); ?>">Create</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('admin/list_products.php'); ?>">List</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
