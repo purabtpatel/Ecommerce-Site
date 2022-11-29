@@ -31,19 +31,21 @@ $visibility = $_GET["visibility"];
         <div class="mb-3">
             <label class="form-label " for="category">Category</label>
             <select class="form-control" id="category" name="category" >
-                <option value="Other"> <?php echo ($category == "Other" ? "selected" : ""); ?></option>
-                <option value="Food"> <?php echo ($category == "Food" ? "selected" : ""); ?></option>
-                <option value="Clothing"> <?php echo ($category == "Clothing" ? "selected" : ""); ?></option>
-                <option value="Electronics"> <?php echo ($category == "Electronics" ? "selected" : ""); ?></option>
-                <option value="Furniture"> <?php echo ($category == "Furniture" ? "selected" : ""); ?></option>
-                <option value="Toys"> <?php echo ($category == "Toys" ? "selected" : ""); ?></option>
-                <option value="Books"> <?php echo ($category == "Books" ? "selected" : ""); ?></option>
-                <option value="Sports"> <?php echo ($category == "Sports" ? "selected" : ""); ?></option>
-                <option value="Tools"> <?php echo ($category == "Tools" ? "selected" : ""); ?></option>
-                <option value="Games"> <?php echo ($category == "Games" ? "selected" : ""); ?></option>
-                <option value="Movies"> <?php echo ($category == "Movies" ? "selected" : ""); ?></option>
-                <option value="Music"> <?php echo ($category == "Music" ? "selected" : ""); ?></option>
-                <option value="Pets"> <?php echo ($category == "Pets" ? "selected" : ""); ?></option>
+                <option value="<?php safer_echo($category)?>" selected><?php safer_echo($category) ?></option>
+                <option value="Other">Other</option>
+                <option value="Food">Food</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Toys">Toys</option>
+                <option value="Books">Books</option>
+                <option value="Sports">Sports</option>
+                <option value="Tools">Tools</option>
+                <option value="Games">Games</option>
+                <option value="Movies">Movies</option>
+                <option value="Music">Music</option>
+                <option value="Home">Home</option>
+
             </select>
         </div>
 
