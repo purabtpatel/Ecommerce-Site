@@ -27,6 +27,12 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="card-footer">
                         <a href="ViewCart.php?id=<?php safer_echo($r["id"]); ?>" class="btn btn-primary">Add to Cart</a>
                     </div>
+                    <?php if(has_role("Admin")): ?>
+                        <div class="card-footer">
+                            <!-- pass in all of current products details to edit_products.php-->
+                            <a href="edit_products.php?id=<?php safer_echo($r['id']); ?>" class="btn btn-primary">Edit</a>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         <?php endforeach; ?>
