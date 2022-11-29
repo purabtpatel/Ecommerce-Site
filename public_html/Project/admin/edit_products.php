@@ -84,15 +84,14 @@ if (isset($_POST["id"]) && isset($_POST["name"]) && isset($_POST["description"])
     $visibility = $_POST["visibility"];
     
     $db = getDB();
-    $stmt = $db->prepare("UPDATE Products set name=:name, description=:description, category=:category, unit_price=:unit_price, stock=:stock, visibility=:visibility WHERE id=:id");
+    $stmt = $db->prepare("UPDATE Products set name=:name, description=:description, category=:category, unit_price=:unit_price, stock=:stock WHERE id=:id");
     $r = $stmt->execute([
         ":id" => $id,
         ":name" => $name,
         ":description" => $description,
         ":category" => $category,
         ":unit_price" => $unit_price,
-        ":stock" => $stock,
-        ":visibility" => $visibility
+        ":stock" => $stock
     ]);
     if ($r) {
         flash("Updated successfully with id: " . $id);
