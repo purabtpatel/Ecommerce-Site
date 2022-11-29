@@ -25,8 +25,6 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <p class="card-text">Stock: <?php safer_echo($r["stock"]); ?></p>
                         <p class="card-text">Visibility: <?php safer_echo($r["visibility"]); ?></p>
                     </div>
-                </div>
-                <div class="card" style="width: 18rem;">
                     <div class="card-footer">
                         <a href="ViewCart.php?id=<?php safer_echo($r["id"]); ?>" class="btn btn-primary">Add to Cart</a>
                         <?php if (has_role("Admin")) : ?>
