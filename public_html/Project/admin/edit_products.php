@@ -5,13 +5,13 @@ if(!has_role("Admin") && !has_role("Shop Owner")){
     flash("You don't have permission to access this page");
     die(header("Location: login.php"));
 }
-
+$id = $_GET["id"];
 ?>
 <div>
     <form onsubmit="return validate(this)" method="POST">
         <div class="mb-3">
-            <label class="form-label text-white" for="name">Id</label>
-            <input class="form-control" id="id" name="id" required />
+            <label class="form-label" for="name">Id</label>
+            <input class="form-control" id="id" name="id" value=<?php safer_echo($id)?> />
         </div>
         <div class="mb-3">
             <label class="form-label" for="d">Description</label>
