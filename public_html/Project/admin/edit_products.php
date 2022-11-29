@@ -65,7 +65,7 @@ $visibility = $_GET["visibility"];
                 <option value="0" <?php echo ($visibility == "0" ? "selected" : ""); ?>>Hidden</option>
             </select>
         </div>
-        <input type="Save" class="mt-3 btn btn-primary" value="Save" />
+        <input type="Submit" class="mt-3 btn btn-primary" value="Save" />
     </form>
 </div>
 <script>
