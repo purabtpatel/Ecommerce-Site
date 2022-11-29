@@ -14,7 +14,9 @@ $stock = $_GET["stock"];
 $visibility = $_GET["visibility"];
 
 ?>
-<div>
+
+<div class="container-fluid">
+    <h3>Edit Product</h3>
     <form onsubmit="return validate(this)" method="POST">
         <div class="mb-3">
             <label class="form-label" for="name">Id</label>
