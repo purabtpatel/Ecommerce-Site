@@ -26,12 +26,12 @@ $visibility = $_GET["visibility"];
         </div>
         <div class="mb-3">
             <label class="form-label " for="d">Description</label>
-            <textarea class="form-control" name="description" id="d" required ><?php safer_echo($description) ?></textarea>
+            <textarea class="form-control" name="description" id="description" required ><?php safer_echo($description) ?></textarea>
         </div>
         <div class="mb-3">
             <label class="form-label " for="category">Category</label>
             <select class="form-control" id="category" name="category" >
-                <option value="<?php safer_echo($category)?>" selected><?php safer_echo($category) ?></option>
+                <option value="<?php safer_echo($category)?>" selected>Current: <?php safer_echo($category) ?></option>
                 <option value="Other">Other</option>
                 <option value="Food">Food</option>
                 <option value="Clothing">Clothing</option>
