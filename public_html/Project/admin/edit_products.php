@@ -31,19 +31,19 @@ $visibility = $_GET["visibility"];
         <div class="mb-3">
             <label class="form-label " for="category">Category</label>
             <select class="form-control" id="category" name="category" >
-                <option value="Other" <?php echo ($category == "Other" ? "selected" : ""); ?>>Other</option>
-                <option value="Food" <?php echo ($category == "Food" ? "selected" : ""); ?>>Food</option>
-                <option value="Clothing" <?php echo ($category == "Clothing" ? "selected" : ""); ?>>Clothing</option>
-                <option value="Electronics" <?php echo ($category == "Electronics" ? "selected" : ""); ?>>Electronics</option>
-                <option value="Furniture" <?php echo ($category == "Furniture" ? "selected" : ""); ?>>Furniture</option>
-                <option value="Toys" <?php echo ($category == "Toys" ? "selected" : ""); ?>>Toys</option>
-                <option value="Books" <?php echo ($category == "Books" ? "selected" : ""); ?>>Books</option>
-                <option value="Sports" <?php echo ($category == "Sports" ? "selected" : ""); ?>>Sports</option>
-                <option value="Tools" <?php echo ($category == "Tools" ? "selected" : ""); ?>>Tools</option>
-                <option value="Games" <?php echo ($category == "Games" ? "selected" : ""); ?>>Games</option>
-                <option value="Movies" <?php echo ($category == "Movies" ? "selected" : ""); ?>>Movies</option>
-                <option value="Music" <?php echo ($category == "Music" ? "selected" : ""); ?>>Music</option>
-                <option value="Home" <?php echo ($category == "Home" ? "selected" : ""); ?>>Pets</option>
+                <option value="Other"> <?php echo ($category == "Other" ? "selected" : ""); ?></option>
+                <option value="Food"> <?php echo ($category == "Food" ? "selected" : ""); ?></option>
+                <option value="Clothing"> <?php echo ($category == "Clothing" ? "selected" : ""); ?></option>
+                <option value="Electronics"> <?php echo ($category == "Electronics" ? "selected" : ""); ?></option>
+                <option value="Furniture"> <?php echo ($category == "Furniture" ? "selected" : ""); ?></option>
+                <option value="Toys"> <?php echo ($category == "Toys" ? "selected" : ""); ?></option>
+                <option value="Books"> <?php echo ($category == "Books" ? "selected" : ""); ?></option>
+                <option value="Sports"> <?php echo ($category == "Sports" ? "selected" : ""); ?></option>
+                <option value="Tools"> <?php echo ($category == "Tools" ? "selected" : ""); ?></option>
+                <option value="Games"> <?php echo ($category == "Games" ? "selected" : ""); ?></option>
+                <option value="Movies"> <?php echo ($category == "Movies" ? "selected" : ""); ?></option>
+                <option value="Music"> <?php echo ($category == "Music" ? "selected" : ""); ?></option>
+                <option value="Pets"> <?php echo ($category == "Pets" ? "selected" : ""); ?></option>
             </select>
         </div>
 
@@ -80,7 +80,7 @@ if (isset($_POST["id"]) && isset($_POST["name"]) && isset($_POST["description"])
     $unit_price = $_POST["unit_price"];
     $stock = $_POST["stock"];
     $visibility = $_POST["visibility"];
-    $user = get_user_id();
+    
     $db = getDB();
     $stmt = $db->prepare("UPDATE Products set name=:name, description=:description, category=:category, unit_price=:unit_price, stock=:stock, visibility=:visibility WHERE id=:id");
     $r = $stmt->execute([
