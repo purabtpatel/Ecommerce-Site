@@ -71,3 +71,34 @@ $visibility = $_GET["visibility"];
         return true;
     }
 </script>
+<?php 
+if (isset($_POST["id"]) && isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["category"]) && isset($_POST["unit_price"]) && isset($_POST["stock"])) {
+    $id = $_POST["id"];
+    $name = $_POST["name"];
+    $description = $_POST["description"];
+    $category = $_POST["category"];
+    $unit_price = $_POST["unit_price"];
+    $stock = $_POST["stock"];
+    $visibility = $_POST["visibility"];
+    $user = get_user_id();
+    $db = getDB();
+    $stmt = $db->prepare("UPDATE Products set name=:name, description=:description, category=:category, unit_price=:unit_price, stock=:stock, visibility=:visibility WHERE id=:id");
+    $r = $stmt->execute([
+        ":id" => $id,
+        ":name" => $name,
+        ":description" => $description,
+        ":category" => $category,
+        ":unit_price" => $unit_price,
+        ":stock" => $stock,
+        ":visibility" => $visibility
+    ]);
+    if ($r) {
+        flash("Updated successfully with id: " . $id);
+    }
+    else {
+        $e = $stmt->errorInfo();
+        flash("Error updating: " . var_export($e, true));
+    }
+}
+?>
+<?php require __DIR__ . "/../../../partials/flash.php"; ?>
