@@ -4,13 +4,13 @@ require(__DIR__ . "/../../../partials/nav.php");
 <div class="container-fluid">
     <h1>Create New Product</h1>
     <form onsubmit="return validate(this)" method="POST">
-    <div class="mb-3">
+        <div class="mb-3">
             <label class="form-label" for="name">Name</label>
             <input class="form-control" id="name" name="name" required />
         </div>
         <div class="mb-3">
             <label class="form-label" for="d">Description</label>
-            <textarea class="form-control" name="description" id="d" required ></textarea>
+            <textarea class="form-control" name="description" id="d" required></textarea>
         </div>
         <div class="mb-3">
             <label class="form-label" for="category">Category</label>
@@ -63,13 +63,12 @@ if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["categ
     $category = $_POST["category"];
     $unit_price = $_POST["unit_price"];
     $stock = $_POST["stock"];
-    if(isset($_POST["visibility"])){
+    if (isset($_POST["visibility"])) {
         $visibility = 1;
-    }
-    else{
+    } else {
         $visibility = 0;
     }
-    
+
     $db = getDB();
     $stmt = $db->prepare("INSERT INTO Products (name, description, category, unit_price, stock, visibility) VALUES(:name, :description, :category ,:unit_price, :stock, :visibility)");
     $r = $stmt->execute([
@@ -79,7 +78,7 @@ if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["categ
         ":unit_price" => $unit_price,
         ":stock" => $stock,
         ":visibility" => $visibility
-        
+
     ]);
     if ($r) {
         flash("Created successfully with id: " . $db->lastInsertId());
@@ -91,6 +90,5 @@ if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["categ
 ?>
 
 <?php
-require(__DIR__."/../../../partials/flash.php");
+require(__DIR__ . "/../../../partials/flash.php");
 ?>
-

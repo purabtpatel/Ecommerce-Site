@@ -1,6 +1,6 @@
-<?php 
+<?php
 require __DIR__ . "/../../../partials/nav.php";
-if(!has_role("Admin") && !has_role("Shop Owner")){
+if (!has_role("Admin") && !has_role("Shop Owner")) {
     flash("You don't have permission to access this page");
     die(header("Location: login.php"));
 }
@@ -11,9 +11,10 @@ $stmt = $db->prepare("SELECT * FROM Products ORDER BY id DESC");
 $r = $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-<h1>Products</h1>
-<div class="row">
-        <?php foreach ($results as $r): ?>
+<div class="container-fluid">
+    <h1>Products</h1>
+    <div class="row">
+        <?php foreach ($results as $r) : ?>
             <div class="col-4">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
@@ -26,6 +27,17 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div class="card-footer">
                         <a href="ViewCart.php?id=<?php safer_echo($r["id"]); ?>" class="btn btn-primary">Add to Cart</a>
+                        <?php if (has_role("Admin")) : ?>
+                            <!-- pass in all of current products details to edit_products.php-->
+                            <a href="edit_products.php?
+                                id=<?php safer_echo($r['id']); ?>&
+                                name=<?php safer_echo($r['name']) ?>&
+                                description=<?php safer_echo($r['description']) ?>&
+                                category=<?php safer_echo($r['category']) ?>&
+                                unit_price=<?php safer_echo($r['unit_price']) ?>&
+                                stock=<?php safer_echo($r['stock']) ?>&
+                                visibility=<?php safer_echo($r['visibility']) ?>" class="btn btn-primary">Edit</a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -33,5 +45,5 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 <?php
-require(__DIR__."/../../../partials/flash.php");
+require(__DIR__ . "/../../../partials/flash.php");
 ?>
