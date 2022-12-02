@@ -106,7 +106,7 @@ require(__DIR__ . "/../../partials/nav.php");
                                 stock=<?php safer_echo($r['stock']) ?>&
                                 visibility=<?php safer_echo($r['visibility']) ?>" class="btn btn-primary">Edit</a>
                         <?php endif; ?>
-                        <a href="./../ProductDetailsPage.php?
+                        <a href="ProductDetailsPage.php?
                                 id=<?php safer_echo($r['id']); ?>&
                                 name=<?php safer_echo($r['name']) ?>&
                                 description=<?php safer_echo($r['description']) ?>&
