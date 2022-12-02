@@ -8,7 +8,7 @@ $category = $_GET["category"];
 $unit_price = $_GET["unit_price"];
 $stock = $_GET["stock"];
 ?>
-<div>
+ <div class="card" style="width: 18rem;">
     <div class="card-body">
         <h5 class="card-title"><?php safer_echo($name); ?></h5>
         <p class="card-text"><?php safer_echo($description); ?></p>
