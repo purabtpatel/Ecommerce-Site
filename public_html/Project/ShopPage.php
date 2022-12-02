@@ -94,7 +94,9 @@ require(__DIR__ . "/../../partials/nav.php");
                         <p class="card-text">Stock: <?php safer_echo($r["stock"]); ?></p>
                     </div>
                     <div class="card-footer">
-                        <a href="ViewCart.php?id=<?php safer_echo($r["id"]); ?>" class="btn btn-primary">Add to Cart</a>
+                        <button type="button" class="btn btn-primary" <?php safer_echo($r["id"]); ?>>
+                            View Details
+                        </button>
                         <?php if (has_role("Admin")) : ?>
                             <!-- pass in all of current products details to edit_products.php-->
                             <a href="edit_products.php?
