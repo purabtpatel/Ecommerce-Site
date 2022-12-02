@@ -30,6 +30,7 @@ if(isset($_GET["id"])){
     }
 }
 //display the cart of user
+$db = getDB();
 $stmt = $db->prepare("SELECT * FROM Cart WHERE user_id = :user_id");
 $r = $stmt->execute([":user_id"=>get_user_id()]);
 $e = $stmt->errorInfo();
