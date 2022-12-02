@@ -65,6 +65,7 @@ session_start();
                     </li>
                 <?php endif; ?>
                 <li class="nav-item"><a class="nav-link" href="<?php echo get_url('ShopPage.php'); ?>">Shop</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?php echo get_url('cart.php'); ?>">Cart</a></li>
                 <?php if (is_logged_in()) : ?>
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('logout.php'); ?>">Logout</a></li>
                 <?php endif; ?>
