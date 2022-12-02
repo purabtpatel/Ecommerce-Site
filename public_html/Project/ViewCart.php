@@ -1,5 +1,5 @@
 <?php 
-require(__DIR__."/../../partials/flash.php");
+require(__DIR__."/../../partials/nav.php");
 
 if(isset($_GET["id"])){
     $id = $_GET["id"];
@@ -64,3 +64,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endif; ?>
     </div>
 </div>
+
+<?php
+require(__DIR__."/../../partials/flash.php");
+?>
