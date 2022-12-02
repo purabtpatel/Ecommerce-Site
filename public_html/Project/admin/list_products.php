@@ -38,7 +38,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 stock=<?php safer_echo($r['stock']) ?>&
                                 visibility=<?php safer_echo($r['visibility']) ?>" class="btn btn-primary">Edit</a>
                         <?php endif; ?>
-                        <a href="./../productDetailsPage.php?
+                        <a href="./../ProductDetailsPage.php?
                                 id=<?php safer_echo($r['id']); ?>&
                                 name=<?php safer_echo($r['name']) ?>&
                                 description=<?php safer_echo($r['description']) ?>&
