@@ -39,6 +39,24 @@ if($e[0] != "00000"){
 }
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+//fetch and store names of each product in cart
+$names;
+foreach ($results as $r):{
+    $stmt = $db->prepare("SELECT name FROM Products WHERE id = :id");
+    $r = $stmt->execute([":id"=>$r["product_id"]]);
+    $e = $stmt->errorInfo();
+    if($e[0] != "00000"){
+        flash(var_export($e, true), "alert");
+    }
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    if(!$result){
+        flash("No results found");
+    }
+    $names[$r["product_id"]] = $result["name"];
+    
+}
+
+
 ?>
 <div class="container-fluid">
     <h3>Cart</h3>
@@ -49,7 +67,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php safer_echo($r["id"]); ?>">
                     <div class="list-group">
                         <div>
-                            <div>Product: <?php safer_echo($r["product_id"]); ?></div>
+                            <div>Product: <?php safer_echo($names[$r["product_id"]]); ?></div>
                             <div>Quantity: <?php safer_echo($r["desired_quantity"]); ?></div>
                             <div>Price: <?php safer_echo($r["unit_price"]); ?></div>
                         </div>
