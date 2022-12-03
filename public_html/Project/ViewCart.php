@@ -35,6 +35,7 @@ if (isset($_GET["id"])) {
         flash("Error adding to cart");
     }
 }
+
 //display the cart of user
 $db = getDB();
 $stmt = $db->prepare("SELECT * FROM Cart WHERE user_id = :user_id");
@@ -79,8 +80,10 @@ foreach ($results as $r) {
                     </div>
                 </div>
             <?php endforeach; ?>
-        <?php else : ?>
+        <?php elseif(is_logged_in()): ?>
             <p>No results</p>
+        <?php else: ?>
+            <p>Sign in to view cart</p>
         <?php endif; ?>
     </div>
 </div>
