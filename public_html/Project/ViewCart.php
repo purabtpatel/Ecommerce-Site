@@ -1,7 +1,14 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
 
+//check if signed in
+
+
 if (isset($_GET["id"])) {
+    if(!is_logged_in()){
+        flash("You must be logged in to add items to your cart");
+        die(header("Location: login.php"));
+    }
     $id = $_GET["id"];
     $db = getDB();
     $stmt = $db->prepare("SELECT * FROM Products where id = :id");
@@ -63,12 +70,12 @@ foreach ($results as $r) {
                         <div class="card-body">
                             <div>Product: <?php safer_echo($names[$r["product_id"]]); ?></div>
                             <div>Quantity: <?php safer_echo($r["desired_quantity"]); ?></div>
-                            <div>Price: <?php safer_echo($r["unit_price"]); ?></div>
+                            <div>Total Cost: <?php safer_echo($r["unit_price"]); ?></div>
                         </div>
-                        <div>
-                            <a type="button" href="edit_cart.php?id=<?php safer_echo($r['id']); ?>">Edit</a>
-                            <a type="button" href="view_cart.php?id=<?php safer_echo($r['id']); ?>">Delete</a>
-                        </div>
+                        <form method="POST" >
+                            <input type="number" name="quantity" placeholder="<?php safer_echo($r["desired_quantity"]); ?>"/>
+                            <input type="submit" name="updateQuantity" value="Update"/>
+                        </form>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -79,5 +86,37 @@ foreach ($results as $r) {
 </div>
 
 <?php
+if(isset($_POST["updateQuantity"])){
+    $quantity = $_POST["quantity"];
+    $id = $r["id"];
+    $db = getDB();
+    if($quantity > 0){
+        $stmt = $db->prepare("UPDATE Cart SET desired_quantity = :desired_quantity WHERE id = :id");
+    $r = $stmt->execute([
+        ":desired_quantity" => $quantity,
+        ":id" => $id
+    ]);
+    if ($r) {
+        flash("Updated quantity");
+    } else {
+        flash("Error updating quantity");
+    }
+    }
+    else if ($quantity == 0){
+        $stmt = $db->prepare("DELETE FROM Cart WHERE id = :id");
+        $r = $stmt->execute([
+            ":id" => $id
+        ]);
+        if ($r) {
+            flash("Removed from cart");
+        } else {
+            flash("Error removing from cart");
+        }
+    }
+    else{
+        flash("Quantity must be greater than 0");
+    }
+    
+}
 require(__DIR__ . "/../../partials/flash.php");
 ?>
