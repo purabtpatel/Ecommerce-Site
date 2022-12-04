@@ -28,10 +28,10 @@ if (isset($_GET["id"])) {
         }
     } else {
         //get product info
-        $stmt = $db->prepare("SELECT * FROM Products where id = :id");
+        $stmt = $db->prepare("SELECT * FROM Products where id = :id");  
         $r = $stmt->execute([":id" => $id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        
         $stmt = $db->prepare("INSERT INTO Cart (user_id, product_id, desired_quantity, unit_price) VALUES(:user_id, :product_id, :desired_quantity, :unit_price)");
         $r = $stmt->execute([
             ":user_id" => get_user_id(),
@@ -46,6 +46,7 @@ if (isset($_GET["id"])) {
             flash("Error adding to cart");
         }
     }
+    
 }
 
 
@@ -78,13 +79,13 @@ foreach ($results as $r) {
     <h3>Cart</h3>
     <!-- clear cart button -->
     <form method="POST">
-        <input type="submit" name="clear" value="Clear Cart" />
+        <input type="submit" name="clear" value="Clear Cart"/>
     </form>
     <?php if (isset($_POST["clear"])) {
         $stmt = $db->prepare("DELETE FROM Cart WHERE user_id = :user_id");
         $r = $stmt->execute([":user_id" => get_user_id()]);
         $e = $stmt->errorInfo();
-
+       
         flash("Cart Cleared");
         die(header("Location: ViewCart.php"));
     } ?>
@@ -102,38 +103,6 @@ foreach ($results as $r) {
                             <input type="number" name="quantity" placeholder="<?php safer_echo($r["desired_quantity"]); ?>" />
                             <input type="submit" name="updateQuantity" value="Update" />
                         </form>
-                        <?php
-                        if (isset($_POST["updateQuantity"])) {
-                            $quantity = $_POST["updateQuantity"];
-                            $id = $r["id"];
-                            $db = getDB();
-                            if ($quantity > 0) {
-                                $stmt = $db->prepare("UPDATE Cart SET desired_quantity = :desired_quantity WHERE id = :id");
-                                flash($quantity);
-                                $r = $stmt->execute([
-                                    ":desired_quantity" => $quantity,
-                                    ":id" => $id
-                                ]);
-                                if ($r) {
-                                    flash("Updated quantity");
-                                } else {
-                                    flash("Error updating quantity");
-                                }
-                            } else if ($quantity == 0) {
-                                $stmt = $db->prepare("DELETE FROM Cart WHERE id = :id");
-                                $r = $stmt->execute([
-                                    ":id" => $id
-                                ]);
-                                if ($r) {
-                                    flash("Removed from cart");
-                                } else {
-                                    flash("Error removing from cart");
-                                }
-                            } else {
-                                flash("Quantity must be greater than 0");
-                            }
-                        }
-                        ?>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -146,6 +115,36 @@ foreach ($results as $r) {
 </div>
 
 <?php
-
+if (isset($_POST["updateQuantity"])) {
+    $quantity = $_POST["updateQuantity"];
+    $id = $r["id"];
+    $db = getDB();
+    if ($quantity > 0) {
+        $stmt = $db->prepare("UPDATE Cart SET desired_quantity = :desired_quantity WHERE id = :id");
+        flash($quantity);
+        $r = $stmt->execute([
+            
+            ":desired_quantity" => $quantity,
+            ":id" => $id
+        ]);
+        if ($r) {
+            flash("Updated quantity");
+        } else {
+            flash("Error updating quantity");
+        }
+    } else if ($quantity == 0) {
+        $stmt = $db->prepare("DELETE FROM Cart WHERE id = :id");
+        $r = $stmt->execute([
+            ":id" => $id
+        ]);
+        if ($r) {
+            flash("Removed from cart");
+        } else {
+            flash("Error removing from cart");
+        }
+    } else {
+        flash("Quantity must be greater than 0");
+    }
+}
 require(__DIR__ . "/../../partials/flash.php");
 ?>
