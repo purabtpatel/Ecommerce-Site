@@ -104,8 +104,8 @@ foreach ($results as $r) {
                             <input type="submit" name="updateQuantity" value="Update" />
                         </form>
                         <form method="POST">
-                            <input type="submit" name="delete <?php safer_echo($names[$r["product_id"]])?>" value="Delete"/> 
-                            <?php flash("Deleted item"); ?>
+                            <input type="submit" name="delete <?php safer_echo($names[$r["product_id"]])?>" value="Delete" onsubmit="<?php flash("Deleted item"); ?>"/> 
+                            
                         </form>
                         
                     </div>
