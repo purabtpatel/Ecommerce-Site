@@ -20,6 +20,7 @@ if (isset($_GET["id"])) {
         $stmt = $db->prepare("UPDATE Cart set desired_quantity = desired_quantity + 1 where product_id = :id");
         $r = $stmt->execute([":id" => $id]);
         if ($r) {
+            die(header("Location: view_cart.php"));
             flash("Added one to cart");
         } else {
             flash("Error adding to cart");
@@ -33,6 +34,7 @@ if (isset($_GET["id"])) {
             ":unit_price" => $result["unit_price"]
         ]);
         if ($r) {
+            die(header("Location: view_cart.php"));
             flash("Added to cart");
         } else {
             flash("Error adding to cart");
@@ -40,6 +42,8 @@ if (isset($_GET["id"])) {
     }
     //clear $_get
     $_GET = array();
+    //redirect to view cart
+    
 }
 
 //display the cart of user
