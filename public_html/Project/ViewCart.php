@@ -26,6 +26,11 @@ if (isset($_GET["id"])) {
             flash("Error adding to cart");
         }
     } else {
+        //get product info
+        $stmt = $db->prepare("SELECT * FROM Products where id = :id");  
+        $r = $stmt->execute([":id" => $id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
         $stmt = $db->prepare("INSERT INTO Cart (user_id, product_id, desired_quantity, unit_price) VALUES(:user_id, :product_id, :desired_quantity, :unit_price)");
         $r = $stmt->execute([
             ":user_id" => get_user_id(),
@@ -40,9 +45,6 @@ if (isset($_GET["id"])) {
             flash("Error adding to cart");
         }
     }
-    //clear $_get
-    $_GET = array();
-    //redirect to view cart
     
 }
 
