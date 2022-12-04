@@ -13,7 +13,7 @@ if (isset($_GET["id"])) {
     $db = getDB();
     //check if product is in cart
     $stmt = $db->prepare("SELECT * FROM Cart WHERE product_id = :id AND user_id = :user_id");
-    $r = $stmt->execute([":id" => $id]);
+    $r = $stmt->execute([":id" => $id, ":user_id" => get_user_id()]);
 
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     //log out result
