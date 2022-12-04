@@ -16,7 +16,6 @@ if (isset($_GET["id"])) {
 
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     //log out result
-    flash(var_export($result, true));
     if ($result) {
         $stmt = $db->prepare("UPDATE Cart set desired_quantity = desired_quantity + 1 where product_id = :id");
         $r = $stmt->execute([":id" => $id]);
@@ -100,7 +99,9 @@ if (isset($_POST["updateQuantity"])) {
     $db = getDB();
     if ($quantity > 0) {
         $stmt = $db->prepare("UPDATE Cart SET desired_quantity = :desired_quantity WHERE id = :id");
+        flash($quantity);
         $r = $stmt->execute([
+            
             ":desired_quantity" => $quantity,
             ":id" => $id
         ]);
