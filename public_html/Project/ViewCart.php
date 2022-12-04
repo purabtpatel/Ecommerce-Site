@@ -100,11 +100,11 @@ foreach ($results as $r) {
                             <div>Total Cost: <?php safer_echo($r["unit_price"]); ?></div>
                         </div>
                         <form method="POST">
-                            <input type="number" name="quantity" value="<?php safer_echo($r["desired_quantity"]); ?>" />
+                            <input type="number" name="<?php safer_echo($names[$r["product_id"]])?>" value="<?php safer_echo($r["desired_quantity"]); ?>" />
                             <input type="submit" name="updateQuantity" value="Update" />
                         </form>
                         <form method="POST">
-                            <input type="submit" name="delete" value="Delete"/> 
+                            <input type="submit" name="delete <?php safer_echo($names[$r["product_id"]])?>" value="Delete"/> 
                         </form>
                         
                     </div>
@@ -118,56 +118,34 @@ foreach ($results as $r) {
     </div>
 </div>
 
-<script>
-    $(document).on("click", "form button[name='delete']", function(e) {
-        e.preventDefault();
-        let form = $(this).closest("form");
-        let id = form.find("input[name='id']").val();
-        $.ajax({
-            url: "api/cart.php",
-            type: "POST",
-            data: {
-                id: id,
-                action: "delete"
-            },
-            success: function(result) {
-                let r = JSON.parse(result);
-                if (r.status == 200) {
-                    form.parent().remove();
-                } else {
-                    alert(r.error);
-                }
-            }
-        });
-    });
-    //update quantity
-    $(document).on("click", "form button[name='updateQuantity']", function(e) {
-        e.preventDefault();
-        let form = $(this).closest("form");
-        let id = form.find("input[name='id']").val();
-        let quantity = form.find("input[name='quantity']").val();
-        $.ajax({
-            url: "api/cart.php",
-            type: "POST",
-            data: {
-                id: id,
-                quantity: quantity,
-                action: "updateQuantity"
-            },
-            success: function(result) {
-                let r = JSON.parse(result);
-                if (r.status == 200) {
-                    form.parent().remove();
-                } else {
-                    alert(r.error);
-                }
-            }
-        });
-    });
-</script>
-
-
 <?php
+//update and delete cart items
+if (isset($_POST["updateQuantity"])) {
+    $db = getDB();
+    foreach ($results as $r) {
+        $stmt = $db->prepare("UPDATE Cart set desired_quantity = :desired_quantity where product_id = :id");
+        $r = $stmt->execute([":id" => $r["product_id"], ":desired_quantity" => $_POST[$names[$r["product_id"]]]]);
+        if ($r) {
+            flash("Updated quantity");
+        } else {
+            flash("Error updating quantity");
+        }
+    }
+    die(header("Location: ViewCart.php"));
+}
+if (isset($_POST["delete " . $names[$r["product_id"]]])) {
+    $db = getDB();
+    foreach ($results as $r) {
+        $stmt = $db->prepare("DELETE FROM Cart WHERE product_id = :id");
+        $r = $stmt->execute([":id" => $names[$r["product_id"]]]);
+        if ($r) {
+            flash("Deleted item");
+        } else {
+            flash("Error deleting item");
+        }
+    }
+    die(header("Location: ViewCart.php"));
+}
 
 require(__DIR__ . "/../../partials/flash.php");
 ?>
