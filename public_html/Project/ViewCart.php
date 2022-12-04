@@ -100,7 +100,7 @@ foreach ($results as $r) {
                             <div>Total Cost: <?php safer_echo($r["unit_price"]); ?></div>
                         </div>
                         <form method="POST">
-                            <input type="number" name="quantity" placeholder="<?php safer_echo($r["desired_quantity"]); ?>" />
+                            <input type="number" name="quantity" value="<?php safer_echo($r["desired_quantity"]); ?>" />
                             <input type="submit" name="updateQuantity" value="Update" />
                         </form>
                     </div>
@@ -116,7 +116,7 @@ foreach ($results as $r) {
 
 <?php
 if (isset($_POST["updateQuantity"])) {
-    $quantity = $_POST["updateQuantity"];
+    $quantity = $_POST["quantity"];
     $id = $r["id"];
     $db = getDB();
     if ($quantity > 0) {
