@@ -34,7 +34,7 @@ if (isset($_GET["id"])) {
             ":unit_price" => $result["unit_price"]
         ]);
         if ($r) {
-            die(header("Location: ViewCart.php"));
+            header("Location: ViewCart.php");
             flash("Added to cart");
         } else {
             flash("Error adding to cart");
@@ -45,6 +45,7 @@ if (isset($_GET["id"])) {
     //redirect to view cart
     
 }
+
 
 //display the cart of user
 $db = getDB();
