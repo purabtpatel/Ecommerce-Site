@@ -11,7 +11,8 @@ if (isset($_GET["id"])) {
     }
     $id = $_GET["id"];
     $db = getDB();
-    $stmt = $db->prepare("SELECT * FROM Products where id = :id");
+    //check if product is in cart
+    $stmt = $db->prepare("SELECT * FROM Cart WHERE product_id = :id AND user_id = :user_id");
     $r = $stmt->execute([":id" => $id]);
 
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
