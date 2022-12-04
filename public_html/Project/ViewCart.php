@@ -5,7 +5,7 @@ require(__DIR__ . "/../../partials/nav.php");
 
 
 if (isset($_GET["id"])) {
-    if(!is_logged_in()){
+    if (!is_logged_in()) {
         flash("You must be logged in to add items to your cart");
         die(header("Location: login.php"));
     }
@@ -13,26 +13,29 @@ if (isset($_GET["id"])) {
     $db = getDB();
     $stmt = $db->prepare("SELECT * FROM Products where id = :id");
     $r = $stmt->execute([":id" => $id]);
-    $e = $stmt->errorInfo();
-    if ($e[0] != "00000") {
-        flash(var_export($e, true), "alert");
-    }
+
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$result) {
-        flash("No results found");
-    }
-    //add to cart of current user
-    $stmt = $db->prepare("INSERT INTO Cart (user_id, product_id, desired_quantity, unit_price) VALUES(:user_id, :product_id, :desired_quantity, :unit_price)");
-    $r = $stmt->execute([
-        ":user_id" => get_user_id(),
-        ":product_id" => $id,
-        ":desired_quantity" => 1,
-        ":unit_price" => $result["unit_price"]
-    ]);
-    if ($r) {
-        flash("Added to cart");
+    if ($results) {
+        $stmt = $db->prepare("UPDATE Cart set desired_quantity = desired_quantity + 1 where product_id = :id");
+        $r = $stmt->execute([":id" => $id]);
+        if ($r) {
+            flash("Added one to cart");
+        } else {
+            flash("Error adding to cart");
+        }
     } else {
-        flash("Error adding to cart");
+        $stmt = $db->prepare("INSERT INTO Cart (user_id, product_id, desired_quantity, unit_price) VALUES(:user_id, :product_id, :desired_quantity, :unit_price)");
+        $r = $stmt->execute([
+            ":user_id" => get_user_id(),
+            ":product_id" => $id,
+            ":desired_quantity" => 1,
+            ":unit_price" => $result["unit_price"]
+        ]);
+        if ($r) {
+            flash("Added to cart");
+        } else {
+            flash("Error adding to cart");
+        }
     }
 }
 
@@ -73,39 +76,38 @@ foreach ($results as $r) {
                             <div>Quantity: <?php safer_echo($r["desired_quantity"]); ?></div>
                             <div>Total Cost: <?php safer_echo($r["unit_price"]); ?></div>
                         </div>
-                        <form method="POST" >
-                            <input type="number" name="quantity" placeholder="<?php safer_echo($r["desired_quantity"]); ?>"/>
-                            <input type="submit" name="updateQuantity" value="Update"/>
+                        <form method="POST">
+                            <input type="number" name="quantity" placeholder="<?php safer_echo($r["desired_quantity"]); ?>" />
+                            <input type="submit" name="updateQuantity" value="Update" />
                         </form>
                     </div>
                 </div>
             <?php endforeach; ?>
-        <?php elseif(is_logged_in()): ?>
+        <?php elseif (is_logged_in()) : ?>
             <p>No results</p>
-        <?php else: ?>
+        <?php else : ?>
             <p>Sign in to view cart</p>
         <?php endif; ?>
     </div>
 </div>
 
 <?php
-if(isset($_POST["updateQuantity"])){
+if (isset($_POST["updateQuantity"])) {
     $quantity = $_POST["quantity"];
     $id = $r["id"];
     $db = getDB();
-    if($quantity > 0){
+    if ($quantity > 0) {
         $stmt = $db->prepare("UPDATE Cart SET desired_quantity = :desired_quantity WHERE id = :id");
-    $r = $stmt->execute([
-        ":desired_quantity" => $quantity,
-        ":id" => $id
-    ]);
-    if ($r) {
-        flash("Updated quantity");
-    } else {
-        flash("Error updating quantity");
-    }
-    }
-    else if ($quantity == 0){
+        $r = $stmt->execute([
+            ":desired_quantity" => $quantity,
+            ":id" => $id
+        ]);
+        if ($r) {
+            flash("Updated quantity");
+        } else {
+            flash("Error updating quantity");
+        }
+    } else if ($quantity == 0) {
         $stmt = $db->prepare("DELETE FROM Cart WHERE id = :id");
         $r = $stmt->execute([
             ":id" => $id
@@ -115,11 +117,9 @@ if(isset($_POST["updateQuantity"])){
         } else {
             flash("Error removing from cart");
         }
-    }
-    else{
+    } else {
         flash("Quantity must be greater than 0");
     }
-    
 }
 require(__DIR__ . "/../../partials/flash.php");
 ?>
