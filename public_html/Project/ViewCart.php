@@ -34,7 +34,7 @@ if (isset($_GET["id"])) {
             ":unit_price" => $result["unit_price"]
         ]);
         if ($r) {
-            header("Location: ViewCart.php");
+            die(header("Location: ViewCart.php"));
             flash("Added to cart");
         } else {
             flash("Error adding to cart");
@@ -74,6 +74,18 @@ foreach ($results as $r) {
 ?>
 <div class="container-fluid">
     <h3>Cart</h3>
+    <!-- clear cart button -->
+    <form method="POST">
+        <input type="submit" name="clear" value="Clear Cart"/>
+    </form>
+    <?php if (isset($_POST["clear"])) {
+        $stmt = $db->prepare("DELETE FROM Cart WHERE user_id = :user_id");
+        $r = $stmt->execute([":user_id" => get_user_id()]);
+        $e = $stmt->errorInfo();
+       
+        flash("Cart Cleared");
+        die(header("Location: ViewCart.php"));
+    } ?>
     <div class="list-group">
         <?php if (count($results) > 0) : ?>
             <?php foreach ($results as $r) : ?>
