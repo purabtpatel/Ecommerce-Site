@@ -38,6 +38,8 @@ if (isset($_GET["id"])) {
             flash("Error adding to cart");
         }
     }
+    //clear $_get
+    $_GET = array();
 }
 
 //display the cart of user
