@@ -105,6 +105,7 @@ foreach ($results as $r) {
                         </form>
                         <form method="POST">
                             <input type="submit" name="delete <?php safer_echo($names[$r["product_id"]])?>" value="Delete"/> 
+                            <?php flash("Deleted item"); ?>
                         </form>
                         
                     </div>
