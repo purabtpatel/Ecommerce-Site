@@ -54,7 +54,7 @@ require __DIR__ . "/../../partials/nav.php";
             <a type="button" class="btn btn-primary" href="checkout.php">Checkout</a>
         </div>
         <div class="col">
-            <button type="button" class="btn btn-primary" onclick="<?php clearcart() ?>">Clear Cart</button>
+            <button type="button" class="btn btn-primary" onclick=<?php clearcart()?>>Clear Cart</button>
         </div>
     </div>
     <?php
