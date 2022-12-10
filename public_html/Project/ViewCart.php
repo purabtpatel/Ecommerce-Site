@@ -10,6 +10,7 @@ require __DIR__ . "/../../partials/nav.php";
     $stmt = $db->prepare("SELECT * FROM Cart WHERE user_id = :user_id");
     $r = $stmt->execute([":user_id" => get_user_id()]);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     ?>
     <div class="row">
         <div class="col">
@@ -25,8 +26,14 @@ require __DIR__ . "/../../partials/nav.php";
                 </thead>
                 <tbody>
                     <?php foreach ($results as $r): ?>
+                        <!-- fetch product names -->
+                        <?php
+                        $stmt = $db->prepare("SELECT name FROM Products WHERE id = :id");
+                        $r2 = $stmt->execute([":id" => $r["product_id"]]);
+                        $prodname = $stmt->fetch(PDO::FETCH_ASSOC);
+                        ?>
                         <tr>
-                            <td><?php safer_echo($r["product_id"]); ?></td>
+                            <td><?php safer_echo($prodname["name"]); ?></td>
                             <td><?php safer_echo($r["desired_quantity"]); ?></td>
                             <td><?php safer_echo($r["unit_price"]); ?></td>
                             <td><?php safer_echo($r["desired_quantity"] * $r["unit_price"]); ?></td>
