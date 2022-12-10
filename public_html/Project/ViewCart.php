@@ -1,3 +1,7 @@
+<?php
+require __DIR__ . "/../../partials/nav.php";
+?>
+
 <div>
     <div class="card" style="width: 18rem;">
         <img class="card-img-top" src="..." alt="Card image cap">
@@ -8,3 +12,6 @@
         </div>
     </div>
 </div>
+<?php
+require __DIR__ . "/../../partials/flash.php";
+?>

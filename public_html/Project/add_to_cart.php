@@ -1,6 +1,6 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
-if (isset($_GET["id"])) {
+if (isset($_GET["id"]) && isset($_GET["quantity"])) {
     if (!is_logged_in()) {
         flash("You must be logged in to add items to your cart");
         die(header("Location: login.php"));
@@ -14,10 +14,10 @@ if (isset($_GET["id"])) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     //log out result
     if ($result) {
-        $stmt = $db->prepare("UPDATE Cart set desired_quantity = desired_quantity + 1 where product_id = :id");
-        $r = $stmt->execute([":id" => $id]);
+        $stmt = $db->prepare("UPDATE Cart set desired_quantity = :desired_quantity where product_id = :id");
+        $r = $stmt->execute([":id" => $id, ":desired_quantity" => $_GET["quantity"]]);
         if ($r) {
-            flash("Added one to cart");
+            flash("Added to cart");
             die(header("Location: ViewCart.php"));
         } else {
             flash("Error adding to cart");
@@ -32,7 +32,7 @@ if (isset($_GET["id"])) {
         $r = $stmt->execute([
             ":user_id" => get_user_id(),
             ":product_id" => $id,
-            ":desired_quantity" => 1,
+            ":desired_quantity" => $_GET["quantity"],
             ":unit_price" => $result["unit_price"]
         ]);
         if ($r) {
