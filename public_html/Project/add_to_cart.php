@@ -44,7 +44,6 @@ if (isset($_GET["id"])) {
         }
     }
 }
-//redirect to cart
-header("Location: ViewCart.php");
+
 require(__DIR__."/../../partials/flash.php");
 ?>
