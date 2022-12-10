@@ -1,37 +1,47 @@
-<?php 
-if(isset($_GET["id"])){
+<?php
+if (isset($_GET["id"])) {
+    if (!is_logged_in()) {
+        flash("You must be logged in to add items to your cart");
+        die(header("Location: login.php"));
+    }
     $id = $_GET["id"];
-    //check if product is in cart already
-    $query = "SELECT * FROM Cart WHERE product_id = :id AND user_id = :user_id";
-    $stmt = $db->prepare($query);
-    $r = $stmt->execute([":id"=>$id, ":user_id"=>get_user_id()]);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    if($result){
-        //if product is in cart already, update quantity
-        $query = "UPDATE Cart SET quantity = quantity + 1 WHERE product_id = :id AND user_id = :user_id";
-        $stmt = $db->prepare($query);
-        $r = $stmt->execute([":id"=>$id, ":user_id"=>get_user_id()]);
-    }
-    else{
-        //fetch product details then add to cart
-        $query = "SELECT * FROM Products WHERE id = :id";
-        $stmt = $db->prepare($query);
-        $r = $stmt->execute([":id"=>$id]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $query = "INSERT INTO Cart (product_id, user_id, desired_quantity, unit_price) VALUES (:product_id, :user_id, :desired_quantity, :unit_price)";
-        $stmt = $db->prepare($query);
-        $r = $stmt->execute([":product_id"=>$result["id"], ":user_id"=>get_user_id(), ":desired_quantity"=>1, ":unit_price"=>$result["unit_price"]]);
+    $db = getDB();
+    //check if product is in cart
+    $stmt = $db->prepare("SELECT * FROM Cart WHERE product_id = :id AND user_id = :user_id");
+    $r = $stmt->execute([":id" => $id, ":user_id" => get_user_id()]);
 
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    //log out result
+    if ($result) {
+        $stmt = $db->prepare("UPDATE Cart set desired_quantity = desired_quantity + 1 where product_id = :id");
+        $r = $stmt->execute([":id" => $id]);
+        if ($r) {
+            flash("Added one to cart");
+            die(header("Location: ViewCart.php"));
+        } else {
+            flash("Error adding to cart");
+        }
+    } else {
+        //get product info
+        $stmt = $db->prepare("SELECT * FROM Products where id = :id");
+        $r = $stmt->execute([":id" => $id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $db->prepare("INSERT INTO Cart (user_id, product_id, desired_quantity, unit_price) VALUES(:user_id, :product_id, :desired_quantity, :unit_price)");
+        $r = $stmt->execute([
+            ":user_id" => get_user_id(),
+            ":product_id" => $id,
+            ":desired_quantity" => 1,
+            ":unit_price" => $result["unit_price"]
+        ]);
+        if ($r) {
+            flash("Added to cart");
+            die(header("Location: ViewCart.php"));
+            
+        } else {
+            flash("Error adding to cart");
+        }
     }
-    if($r){
-        flash("Product added to cart");
-    }
-    else{
-        flash("Error adding product to cart");
-    }
-}
-else{
-    flash("Error adding product to cart");
 }
 //redirect to cart
 header("Location: ViewCart.php");
