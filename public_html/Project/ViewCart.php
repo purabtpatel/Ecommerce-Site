@@ -38,8 +38,10 @@ require __DIR__ . "/../../partials/nav.php";
                             <td><?php safer_echo($r["unit_price"]); ?></td>
                             <td><?php safer_echo($r["desired_quantity"] * $r["unit_price"]); ?></td>
                             <td>
-                                <input type="number" name="quantity" min="0" max="100" value="<?php safer_echo($r['desired_quantity']); ?>"/>
-                                <a type="input" href="add_to_cart.php?id=<?php safer_echo($r['product_id']); ?>&quantity=<?php safer_echo($r['desired_quantity']); ?>">Update</a>
+                                <form method="GET">
+                                    <input type="number" name="quantity" min="0" max="<?php safer_echo($r["stock"]); ?>" value="<?php safer_echo($r["desired_quantity"]); ?>">
+                                    <input type="submit" value="Update">
+                                </form>
                                 <a type="button" href="add_to_cart.php?id=<?php safer_echo($r['product_id']); ?>&quantity=0">Clear</a>
                             </td>
                         </tr>
