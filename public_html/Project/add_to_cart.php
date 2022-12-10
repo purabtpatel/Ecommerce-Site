@@ -13,10 +13,15 @@ if(isset($_GET["id"])){
         $r = $stmt->execute([":id"=>$id, ":user_id"=>get_user_id()]);
     }
     else{
-        //if product is not in cart, add it
-        $query = "INSERT INTO Cart (product_id, user_id, quantity) VALUES (:id, :user_id, 1)";
+        //fetch product details then add to cart
+        $query = "SELECT * FROM Products WHERE id = :id";
         $stmt = $db->prepare($query);
-        $r = $stmt->execute([":id"=>$id, ":user_id"=>get_user_id()]);
+        $r = $stmt->execute([":id"=>$id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $query = "INSERT INTO Cart (product_id, user_id, desired_quantity, unit_price) VALUES (:product_id, :user_id, :desired_quantity, :unit_price)";
+        $stmt = $db->prepare($query);
+        $r = $stmt->execute([":product_id"=>$result["id"], ":user_id"=>get_user_id(), ":desired_quantity"=>1, ":unit_price"=>$result["unit_price"]]);
+
     }
     if($r){
         flash("Product added to cart");
