@@ -38,20 +38,11 @@ require __DIR__ . "/../../partials/nav.php";
                             <td><?php safer_echo($r["unit_price"]); ?></td>
                             <td><?php safer_echo($r["desired_quantity"] * $r["unit_price"]); ?></td>
                             <td>
-                                <form method="GET">
-                                    <input type="number" name="quantity" min="0" max="<?php safer_echo($r["stock"]); ?>" value="<?php safer_echo($r["desired_quantity"]); ?>"/>
-                                    <input type="submit" value="Update"/>
-                                </form>
+                                <a type="button" href="add_to_cart.php?id=<?php safer_echo($r['product_id']); ?>&quantity=<?php safer_echo($r['desired_quantity'] + 1); ?>">Add</a>
+                                <a type="button" href="add_to_cart.php?id=<?php safer_echo($r['product_id']); ?>&quantity=<?php safer_echo($r['desired_quantity'] - 1); ?>">Remove</a>
                                 <a type="button" href="add_to_cart.php?id=<?php safer_echo($r['product_id']); ?>&quantity=0">Clear</a>
                             </td>
                         </tr>
-                        <?php if(isset($_GET["quantity"])): ?>
-                            <?php
-                            $quantity = $_GET["quantity"];
-                            $stmt = $db->prepare("UPDATE Cart SET desired_quantity = :desired_quantity WHERE user_id = :user_id AND product_id = :product_id");
-                            $r = $stmt->execute([":desired_quantity" => $quantity, ":user_id" => get_user_id(), ":product_id" => $r["product_id"]]);
-                            ?>
-                        <?php endif; ?>
                     <?php endforeach; ?>
                 </tbody>
             </table>
