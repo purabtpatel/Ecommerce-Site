@@ -94,7 +94,8 @@ require(__DIR__ . "/../../partials/nav.php");
                         <p class="card-text">Stock: <?php safer_echo($r["stock"]); ?></p>
                     </div>
                     <div class="card-footer">
-                        <a href="ViewCart.php?id=<?php safer_echo($r['id']); ?>" class="btn btn-primary">Add to Cart</a>
+                        <!-- button that adds the product to the cart -->
+                        <button type="button" class="btn btn-primary" onclick="addToCart(<?php safer_echo($r['id']); ?>)">Add to Cart</button>
                         <?php if (has_role("Admin")) : ?>
                             <!-- pass in all of current products details to edit_products.php-->
                             <a href="edit_products.php?
@@ -119,6 +120,21 @@ require(__DIR__ . "/../../partials/nav.php");
         <?php endforeach; ?>
     </div>
 </div>
+<script> //add to cart function
+    xhttp = new XMLHttpRequest();
+    function addToCart(id){
+        xhttp.open("POST", "add_to_cart.php", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("id="+id);
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                alert(this.responseText);
+            }
+        };
+    }
+</script>
+
+
 <?php
 require(__DIR__."/../../partials/flash.php");
 ?>
