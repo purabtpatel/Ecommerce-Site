@@ -51,7 +51,7 @@ require __DIR__ . "/../../partials/nav.php";
     <!-- button to checkout or clear cart-->
     <div class="row">
         <div class="col">
-            <a type="button" onclick="<?php flash("Hello")?>" class="btn btn-primary">Checkout</a>
+            <button onclick="<?php flash("Hello")?>" class="btn btn-primary">Checkout</button>
         </div>
         <div class="col">
             <a type="button" class="btn btn-primary" href="clear_cart.php">Clear Cart</a>
