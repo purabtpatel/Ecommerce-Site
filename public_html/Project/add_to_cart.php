@@ -1,4 +1,5 @@
 <?php
+require(__DIR__ . "/../../partials/nav.php");
 if (isset($_GET["id"])) {
     if (!is_logged_in()) {
         flash("You must be logged in to add items to your cart");
@@ -45,3 +46,5 @@ if (isset($_GET["id"])) {
 }
 //redirect to cart
 header("Location: ViewCart.php");
+require(__DIR__."/../../partials/flash.php");
+?>
