@@ -39,8 +39,8 @@ require __DIR__ . "/../../partials/nav.php";
                             <td><?php safer_echo($r["desired_quantity"] * $r["unit_price"]); ?></td>
                             <td>
                                 <form method="GET">
-                                    <input type="number" name="quantity" min="0" max="<?php safer_echo($r["stock"]); ?>" value="<?php safer_echo($r["desired_quantity"]); ?>">
-                                    <input type="submit" value="Update">
+                                    <input type="number" name="quantity" min="0" max="<?php safer_echo($r["stock"]); ?>" value="<?php safer_echo($r["desired_quantity"]); ?>"/>
+                                    <input type="submit" value="Update"/>
                                 </form>
                                 <a type="button" href="add_to_cart.php?id=<?php safer_echo($r['product_id']); ?>&quantity=0">Clear</a>
                             </td>
