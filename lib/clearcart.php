@@ -6,7 +6,7 @@ function clearcart() {
     $r = $stmt->execute([":user_id" => get_user_id()]);
     if ($r) {
         flash("Cart cleared");
-        die(header("Location: ViewCart.php"));
+        
     } else {
         flash("Error clearing cart");
     }
