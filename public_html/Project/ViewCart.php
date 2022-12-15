@@ -57,6 +57,8 @@ require __DIR__ . "/../../partials/nav.php";
             <button type="button" class="btn btn-primary" onclick=<?php clearcart()?>>Clear Cart</button>
         </div>
     </div>
-    <?php
-    require __DIR__ . "/../../partials/flash.php";
-    ?>
+</div>
+<?php
+require __DIR__ . "/../../partials/flash.php";
+?>
+
