@@ -5,11 +5,6 @@ require __DIR__ . "/../../partials/nav.php";
 <div class="container">
     <h3>Cart</h3>
     <?php
-    //clear post and get headers
-    $_POST = array();
-    $_GET = array();
-    
-    
     //fetch all products from cart
     $db = getDB();
     $stmt = $db->prepare("SELECT * FROM Cart WHERE user_id = :user_id");
@@ -58,16 +53,20 @@ require __DIR__ . "/../../partials/nav.php";
         <div class="col">
             <a type="button" class="btn btn-primary" href="checkout.php">Checkout</a>
         </div>
-       <form method="POST"> 
-        <input type="submit" class="btn btn-primary" name="clearCart" value="Clear Cart">
-        </form>
+        <!-- button to clear cart, should not fire on load-->
+        <div class="col">
+            <a type="button" class="btn btn-primary" href="ViewCart.php" onclick="clearcart()">Clear Cart</a>
+
+        </div>
     </div>
 </div>
-<?php
-if (isset($_POST["clearCart"])) {
-    clearcart();
-}
-?>
+<script>
+    function clearcart(event) {
+        //prevent default
+        event.preventDefault();
+        <?php clearcart() ?>
+    }
+
 <?php
 require __DIR__ . "/../../partials/flash.php";
 ?>
