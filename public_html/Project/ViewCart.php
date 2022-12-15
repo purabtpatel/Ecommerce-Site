@@ -55,19 +55,20 @@ require __DIR__ . "/../../partials/nav.php";
         </div>
         <!-- button to clear cart, should not fire on load-->
         <div class="col">
-            <a type="button" class="btn btn-primary" href="ViewCart.php" onclick="clearcart()">Clear Cart</a>
-
+            <a type="button" class="btn btn-primary" href="clear_cart.php">Clear Cart</a>
         </div>
     </div>
 </div>
-<script>
-    function clearcart(event) {
-        //prevent default
-        event.preventDefault();
-        <?php clearcart() ?>
-    }
+
+
 
 <?php
 require __DIR__ . "/../../partials/flash.php";
 ?>
+
+
+
+
+
+
 
