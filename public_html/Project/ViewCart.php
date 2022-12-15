@@ -53,19 +53,16 @@ require __DIR__ . "/../../partials/nav.php";
         <div class="col">
             <a type="button" class="btn btn-primary" href="checkout.php">Checkout</a>
         </div>
-        <div class="col">
-            <button type="button" class="btn btn-primary" onclick=clearcart()>Clear Cart</button>
-        </div>
+       <form method="POST"> 
+        <input type="submit" class="btn btn-primary" name="clearCart" value="Clear Cart">
+        </form>
     </div>
 </div>
-<script>
-    function clearcart() {
-        //prevent default
-        event.preventDefault();
-        <?php clearcart() ?>
-
-    }
-
+<?php
+if (isset($_POST["clearCart"])) {
+    clearcart();
+}
+?>
 <?php
 require __DIR__ . "/../../partials/flash.php";
 ?>
