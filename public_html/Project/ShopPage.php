@@ -94,7 +94,8 @@ require(__DIR__ . "/../../partials/nav.php");
                         <p class="card-text">Stock: <?php safer_echo($r["stock"]); ?></p>
                     </div>
                     <div class="card-footer">
-                        <a href="ViewCart.php?id=<?php safer_echo($r['id']); ?>" class="btn btn-primary">Add to Cart</a>
+                        <!-- button that adds the product to the cart -->
+                        <a href="add_to_cart.php?id=<?php safer_echo($r['id']); ?>" class="btn btn-primary">Add to Cart</a>
                         <?php if (has_role("Admin")) : ?>
                             <!-- pass in all of current products details to edit_products.php-->
                             <a href="edit_products.php?
@@ -119,6 +120,9 @@ require(__DIR__ . "/../../partials/nav.php");
         <?php endforeach; ?>
     </div>
 </div>
+
+
+
 <?php
 require(__DIR__."/../../partials/flash.php");
 ?>
