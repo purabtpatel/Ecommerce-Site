@@ -5,6 +5,11 @@ require __DIR__ . "/../../partials/nav.php";
 <div class="container">
     <h3>Cart</h3>
     <?php
+    //clear post and get headers
+    $_POST = array();
+    $_GET = array();
+    
+    
     //fetch all products from cart
     $db = getDB();
     $stmt = $db->prepare("SELECT * FROM Cart WHERE user_id = :user_id");
