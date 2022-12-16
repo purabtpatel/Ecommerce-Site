@@ -42,6 +42,7 @@ require __DIR__ . "/../../partials/nav.php";
                     <?php //setup counter to keep track of which price to use 
                     $i = 0;
                     $total = 0;
+                    $item_total = 0;
                     ?>
 
                     <?php foreach ($results as $r) : ?>
@@ -58,16 +59,19 @@ require __DIR__ . "/../../partials/nav.php";
                             <!-- if price from products table is different from price in cart, display a % change -->
                             <?php if ($r["unit_price"] != $prices[$i]) : ?>
                                 <?php $total += $r["desired_quantity"] * $prices[$i]; ?>
+                                <?php $item_total = $r["desired_quantity"] * $prices[$i]; ?>
                                 <?php $change = ($prices[$i] - $r["unit_price"] ) / $prices[$i] * 100; ?>
                                 <span class="badge badge-success"><?php safer_echo($change); ?>%</span>
                                 <?php $i++; ?>
                             <?php else : ?>
                                 <?php $total += $r["desired_quantity"] * $r["unit_price"]; ?>
+                                <?php $item_total = $r["desired_quantity"] * $r["unit_price"]; ?>
+
                                 <?php $i++; ?>
                             <?php endif; ?>
                             
                             </td>
-                            <td><?php safer_echo($r["desired_quantity"] * $r["unit_price"]); ?></td>
+                            <?php safer_echo($item_total); ?>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
