@@ -66,6 +66,7 @@ require __DIR__ . "/../../partials/nav.php";
                                 <?php endif; ?>
                                 <?php $i++; ?>
                             <?php endif; ?>
+                            <?php $total += $r["desired_quantity"] * $r["unit_price"]; ?>
                             </td>
                             <td><?php safer_echo($r["desired_quantity"] * $r["unit_price"]); ?></td>
                         </tr>
