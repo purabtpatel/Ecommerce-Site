@@ -58,12 +58,8 @@ require __DIR__ . "/../../partials/nav.php";
                             <!-- if price from products table is different from price in cart, display a % change -->
                             <?php if ($r["unit_price"] != $prices[$i]) : ?>
                                 <?php $total += $r["desired_quantity"] * $prices[$i]; ?>
-                                <?php $change = ($r["unit_price"] - $prices[$i]) / $prices[$i] * 100; ?>
-                                <?php if ($change < 0) : ?>
-                                    <span class="badge badge-success">+<?php safer_echo($change); ?>%</span>
-                                <?php else : ?>
-                                    <span class="badge badge-danger"><?php safer_echo($change); ?>%</span>
-                                <?php endif; ?>
+                                <?php $change = ($prices[$i] - $r["unit_price"] ) / $prices[$i] * 100; ?>
+                                <span class="badge badge-success"><?php safer_echo($change); ?>%</span>
                                 <?php $i++; ?>
                             <?php else : ?>
                                 <?php $total += $r["desired_quantity"] * $r["unit_price"]; ?>
