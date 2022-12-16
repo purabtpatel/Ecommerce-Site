@@ -59,14 +59,17 @@ require __DIR__ . "/../../partials/nav.php";
                             <?php if ($r["unit_price"] != $prices[$i]) : ?>
                                 <?php $total += $r["desired_quantity"] * $prices[$i]; ?>
                                 <?php $change = ($r["unit_price"] - $prices[$i]) / $prices[$i] * 100; ?>
-                                <?php if ($change > 0) : ?>
+                                <?php if ($change < 0) : ?>
                                     <span class="badge badge-success">+<?php safer_echo($change); ?>%</span>
                                 <?php else : ?>
                                     <span class="badge badge-danger"><?php safer_echo($change); ?>%</span>
                                 <?php endif; ?>
                                 <?php $i++; ?>
+                            <?php else : ?>
+                                <?php $total += $r["desired_quantity"] * $r["unit_price"]; ?>
+                                <?php $i++; ?>
                             <?php endif; ?>
-                            <?php $total += $r["desired_quantity"] * $r["unit_price"]; ?>
+                            
                             </td>
                             <td><?php safer_echo($r["desired_quantity"] * $r["unit_price"]); ?></td>
                         </tr>
