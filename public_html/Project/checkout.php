@@ -20,10 +20,10 @@ require __DIR__ . "/../../partials/nav.php";
     //record each price in an array
     $prices = [];
     foreach ($results as $r) {
-        $stmt = $db->prepare("SELECT price FROM Products WHERE id = :id");
+        $stmt = $db->prepare("SELECT unit_price FROM Products WHERE id = :id");
         $r2 = $stmt->execute([":id" => $r["product_id"]]);
         $price = $stmt->fetch(PDO::FETCH_ASSOC);
-        array_push($prices, $price["price"]);
+        array_push($prices, $price["unit_price"]);
     }
 
     ?>
