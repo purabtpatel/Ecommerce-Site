@@ -46,6 +46,18 @@ require __DIR__ . "/../../partials/nav.php";
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            <!-- display total price -->
+            <?php
+            $stmt = $db->prepare("SELECT SUM(desired_quantity * unit_price) as total FROM Cart WHERE user_id = :user_id");
+            $r = $stmt->execute([":user_id" => get_user_id()]);
+            $total = $stmt->fetch(PDO::FETCH_ASSOC);
+            ?>
+            <div class="row">
+                <div class="col">
+                    <h4>Total: <?php safer_echo($total["total"]); ?></h4>
+                </div>
+            </div>
+
         </div>
     </div>
     <!-- button to checkout or clear cart-->
