@@ -63,15 +63,16 @@ require __DIR__ . "/../../partials/nav.php";
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <!-- display total price -->
+            <!-- display total price using prices from products table -->
             <?php
-            $stmt = $db->prepare("SELECT SUM(desired_quantity * unit_price) as total FROM Cart WHERE user_id = :user_id");
-            $r = $stmt->execute([":user_id" => get_user_id()]);
-            $total = $stmt->fetch(PDO::FETCH_ASSOC);
+            $total = 0;
+            foreach ($results as $r) {
+                $total += $r["desired_quantity"] * $prices[$r["product_id"] - 1];
+            }
             ?>
             <div class="row">
                 <div class="col">
-                    <h4>Total: <?php safer_echo($total["total"]); ?></h4>
+                    <h4>Total: <?php safer_echo($total); ?></h4>
                 </div>
             </div>
         </div>
