@@ -53,12 +53,12 @@ require __DIR__ . "/../../partials/nav.php";
         <div class="col">
             <a type="button" class="btn btn-primary" href="checkout.php">Checkout</a>
         </div>
+        <!-- button to clear cart, should not fire on load-->
         <div class="col">
-            <button type="button" class="btn btn-primary" onclick=<?php clearcart()?>>Clear Cart</button>
+            <a type="button" class="btn btn-primary" href="clear_cart.php">Clear Cart</a>
         </div>
     </div>
 </div>
 <?php
 require __DIR__ . "/../../partials/flash.php";
 ?>
-
