@@ -41,7 +41,7 @@ require __DIR__ . "/../../partials/nav.php";
                 <tbody>
                     <?php //setup counter to keep track of which price to use 
                     $i = 0;
-                    
+                    $total = 0;
                     ?>
 
                     <?php foreach ($results as $r) : ?>
@@ -57,13 +57,14 @@ require __DIR__ . "/../../partials/nav.php";
                             <td><?php safer_echo($r["unit_price"]); ?> 
                             <!-- if price from products table is different from price in cart, display a % change -->
                             <?php if ($r["unit_price"] != $prices[$i]) : ?>
-                                <?php $i++; ?>
-                                <?php $change = ($r["unit_price"] - $prices[$i - 1]) / $prices[$i - 1] * 100; ?>
+                                <?php $total += $r["desired_quantity"] * $prices[$i]; ?>
+                                <?php $change = ($r["unit_price"] - $prices[$i]) / $prices[$i] * 100; ?>
                                 <?php if ($change > 0) : ?>
                                     <span class="badge badge-success">+<?php safer_echo($change); ?>%</span>
                                 <?php else : ?>
                                     <span class="badge badge-danger"><?php safer_echo($change); ?>%</span>
                                 <?php endif; ?>
+                                <?php $i++; ?>
                             <?php endif; ?>
                             </td>
                             <td><?php safer_echo($r["desired_quantity"] * $r["unit_price"]); ?></td>
@@ -72,12 +73,7 @@ require __DIR__ . "/../../partials/nav.php";
                 </tbody>
             </table>
             <!-- display total price using prices from products table -->
-            <?php
-            $total = 0;
-            foreach ($results as $r) {
-                $total += $r["desired_quantity"] * $prices[$r["product_id"] - 1];
-            }
-            ?>
+            
             <div class="row">
                 <div class="col">
                     <h4>Total: <?php safer_echo($total); ?></h4>
