@@ -62,6 +62,7 @@ require __DIR__ . "/../../partials/nav.php";
                                 <?php $item_total = $r["desired_quantity"] * $prices[$i]; ?>
                                 <?php $change = ($prices[$i] - $r["unit_price"] ) / $prices[$i] * 100; ?>
                                 <span class="badge badge-success"><?php safer_echo($change); ?>%</span>
+                                <span class="badge badge-danger">($<?php safer_echo($prices[$i])?>)</span>
                                 <?php $i++; ?>
                             <?php else : ?>
                                 <?php $total += $r["desired_quantity"] * $r["unit_price"]; ?>
@@ -71,7 +72,7 @@ require __DIR__ . "/../../partials/nav.php";
                             <?php endif; ?>
                             
                             </td>
-                            <td><?php safer_echo($item_total); ?></td>
+                            <td>$<?php safer_echo($item_total); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
