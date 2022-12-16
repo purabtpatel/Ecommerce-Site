@@ -71,7 +71,7 @@ require __DIR__ . "/../../partials/nav.php";
                             <?php endif; ?>
                             
                             </td>
-                            <?php safer_echo($item_total); ?>
+                            <td><?php safer_echo($item_total); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
