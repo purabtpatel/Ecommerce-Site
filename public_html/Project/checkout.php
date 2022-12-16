@@ -39,6 +39,11 @@ require __DIR__ . "/../../partials/nav.php";
                     </tr>
                 </thead>
                 <tbody>
+                    <?php //setup counter to keep track of which price to use 
+                    $i = 0;
+                    
+                    ?>
+
                     <?php foreach ($results as $r) : ?>
                         <!-- fetch product names -->
                         <?php
@@ -51,11 +56,14 @@ require __DIR__ . "/../../partials/nav.php";
                             <td><?php safer_echo($r["desired_quantity"]); ?></td>
                             <td><?php safer_echo($r["unit_price"]); ?> 
                             <!-- if price from products table is different from price in cart, display a % change -->
-                            <?php if ($r["unit_price"] != $prices[$r["product_id"] - 1]) : ?>
-                                <?php
-                                $change = ($r["unit_price"] - $prices[$r["product_id"] - 1]) / $prices[$r["product_id"] - 1] * 100;
-                                ?>
-                                <span class="badge badge-danger"> <?php safer_echo($change); ?>% change</span>
+                            <?php if ($r["unit_price"] != $prices[$i]) : ?>
+                                <?php $i++; ?>
+                                <?php $change = ($r["unit_price"] - $prices[$i - 1]) / $prices[$i - 1] * 100; ?>
+                                <?php if ($change > 0) : ?>
+                                    <span class="badge badge-success">+<?php safer_echo($change); ?>%</span>
+                                <?php else : ?>
+                                    <span class="badge badge-danger"><?php safer_echo($change); ?>%</span>
+                                <?php endif; ?>
                             <?php endif; ?>
                             </td>
                             <td><?php safer_echo($r["desired_quantity"] * $r["unit_price"]); ?></td>
