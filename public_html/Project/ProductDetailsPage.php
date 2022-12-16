@@ -19,7 +19,7 @@ $stock = $_GET["stock"];
     <!-- if admin is logged in, show edit button -->
     <?php if (has_role("Admin")) : ?>
         <div class="card-footer">
-            <a href="edit_products.php?
+            <a href="admin/edit_products.php?
                 id=<?php safer_echo($r['id']); ?>&
                 name=<?php safer_echo($r['name']) ?>&
                 description=<?php safer_echo($r['description']) ?>&
