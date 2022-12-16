@@ -59,16 +59,6 @@ require __DIR__ . "/../../partials/nav.php";
         </div>
     </div>
 </div>
-
-
-
 <?php
 require __DIR__ . "/../../partials/flash.php";
 ?>
-
-
-
-
-
-
-
