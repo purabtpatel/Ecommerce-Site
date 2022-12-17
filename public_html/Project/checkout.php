@@ -185,7 +185,7 @@ if(isset($_POST["money_received"]) && isset($_POST["shipping_address"]) && isset
         }
     }
     
-    die(header("Location: ViewCart.php"));
+    //die(header("Location: ViewCart.php"));
     
     flash($shipping_address);
     flash($_POST["payment_method"]);
@@ -197,29 +197,55 @@ if(isset($_POST["money_received"]) && isset($_POST["shipping_address"]) && isset
     flash($total);
 
     
-    
-    
-    
-    $db = getDB();
-    $stmt = $db->prepare("INSERT INTO Orders (user_id, payment_method, shipping_address, total_price, money_received, first_name, last_name) VALUES (:user_id, :payment_method, :shipping_address, :total_price, :money_received, :first_name, :last_name)");
-    $r = $stmt->execute([
-        ":user_id" => get_user_id(),
-        ":payment_method" => $_POST["payment_method"],
-        ":shipping_address" => $shipping_address,
-        ":total_price" => $total,
-        ":money_received" => $_POST["money_received"],
-        ":first_name" => $_POST["first_name"],
-        ":last_name" => $_POST["last_name"]
-    ]);
-    if ($r) {
-        flash("Order placed successfully");
-    }
-    else {
-        $e = $stmt->errorInfo();
-        flash("Error placing order: " . var_export($e, true));
-    }
-    
+    //if there is enough stock for each item in cart
+    if($bool){
+        //create order
+        $stmt = $db->prepare("INSERT INTO Orders (user_id, shipping_address, payment_method, payment_amount, first_name, last_name) VALUES (:user_id, :shipping_address, :payment_method, :payment_amount, :first_name, :last_name)");
+        $r = $stmt->execute([
+            ":user_id" => get_user_id(),
+            ":shipping_address" => $shipping_address,
+            ":payment_method" => $_POST["payment_method"],
+            ":payment_amount" => $_POST["money_received"],
+            ":first_name" => $_POST["first_name"],
+            ":last_name" => $_POST["last_name"]
+        ]);
+        //get order id
+        $stmt = $db->prepare("SELECT id FROM Orders WHERE user_id = :user_id AND shipping_address = :shipping_address AND payment_method = :payment_method AND payment_amount = :payment_amount AND first_name = :first_name AND last_name = :last_name");
+        $r = $stmt->execute([
+            ":user_id" => get_user_id(),
+            ":shipping_address" => $shipping_address,
+            ":payment_method" => $_POST["payment_method"],
+            ":payment_amount" => $_POST["money_received"],
+            ":first_name" => $_POST["first_name"],
+            ":last_name" => $_POST["last_name"]
+        ]);
+        $order_id = $stmt->fetch(PDO::FETCH_ASSOC);
+        //create order items
+        foreach($results as $r){
+            $stmt = $db->prepare("INSERT INTO OrderItems (order_id, product_id, quantity) VALUES (:order_id, :product_id, :quantity)");
+            $r = $stmt->execute([
+                ":order_id" => $order_id["id"],
+                ":product_id" => $r["product_id"],
+                ":quantity" => $r["desired_quantity"]
+            ]);
+            //update stock
+            $stmt = $db->prepare("UPDATE Products SET stock = stock - :quantity WHERE id = :id");
+            $r = $stmt->execute([
+                ":quantity" => $r["desired_quantity"],
+                ":id" => $r["product_id"]
+            ]);
+        }
+        //delete cart
+        $stmt = $db->prepare("DELETE FROM Carts WHERE user_id = :user_id");
+        $r = $stmt->execute([
+            ":user_id" => get_user_id()
+        ]);
+        //redirect to order page
+        die(header("Location: ViewOrder.php?id=" . $order_id["id"]));
 
-}
+    } else {
+        //redirect to cart page
+        die(header("Location: ViewCart.php"));
+    }
 ?>
 
