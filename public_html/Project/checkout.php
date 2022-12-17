@@ -171,3 +171,6 @@ if(isset($_POST["money_recieved"]) && isset($_POST["shipping_address"]) && isset
     flash("check3");
 
 }
+flash("check4")
+?>
+
