@@ -129,6 +129,7 @@ if(isset($_POST["money_recieved"]) && isset($_POST["shipping_address"]) && isset
     //concat shipping address into one string
     $shipping_address = $_POST["shipping_address"] . ", " . $_POST["shipping_city"] . ", " . $_POST["shipping_state"] . ", " . $_POST["shipping_zip"] . ", " . $_POST["shipping_country"];
     //check if there is enough stock for each item in cart
+    $bool = true;
     foreach($results as $r){
         $stmt = $db->prepare("SELECT stock FROM Products WHERE id = :id");
         $r2 = $stmt->execute([":id" => $r["product_id"]]);
@@ -140,10 +141,12 @@ if(isset($_POST["money_recieved"]) && isset($_POST["shipping_address"]) && isset
             $r = $stmt->fetch(PDO::FETCH_ASSOC);
 
             flash("Not enough stock for " . $r["name"] . " only " . $stock["stock"] . " left");
-            header("Location: ViewCart.php");
+            $bool = false;
         }
     }
-    
+    if(!$bool){
+        die(header("Location: cart.php"));
+    }
     
     
     
