@@ -87,33 +87,73 @@ require __DIR__ . "/../../partials/nav.php";
         </div>
     </div>
     <!-- checkout form -->
-    <div class="row">
-        <div class="col">
-            <form onsubmit="return validate(this)" method="POST">
-                <div class="form-group row">
-                    <select class="form-control" name="payment_method">
-                        <option value="American Express">American Express</option>
-                        <option value="Visa">Visa</option>
-                        <option value="Mastercard">Mastercard</option>
-                        <option value="Discover">Discover</option>
-                        <option value="Paypal">Paypal</option>
-                        <option value="Debit">Debit</option>
-                    </select>
-                    <input type="number" step="any" class="form-control" name="money_received" placeholder="Payment Amount" required>
-                    <!-- shipping address -->
-                    <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
-                    <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
-                    <input type="text" class="form-control" name="shipping_address" placeholder="Shipping Address" required>
-                    <input type="text" class="form-control" name="shipping_city" placeholder="Shipping City" required>
-                    <input type="text" class="form-control" name="shipping_state" placeholder="Shipping State" required>
-                    <input type="text" class="form-control" name="shipping_zip" placeholder="Shipping Zip" required>
-                    <input type="text" class="form-control" name="shipping_country" placeholder="Shipping Country" required>
-                    <input type="submit" class="btn btn-primary" value="Checkout">
-                </div>
-            </form>
-        </div>
-    </div>
+    
 </div>
+<div class="container">
+    <form method="POST" onsubmit="return validate(this);">
+        <div class="form-group row">
+            <label for="money_received" class="col-sm-2 col-form-label">Money Received</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="money_received" name="money_received" placeholder="Money Received" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="shipping_address" class="col-sm-2 col-form-label">Shipping Address</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="shipping_address" name="shipping_address" placeholder="Shipping Address" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="shipping_city" class="col-sm-2 col-form-label">Shipping City</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="shipping_city" name="shipping_city" placeholder="Shipping City" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="shipping_state" class="col-sm-2 col-form-label">Shipping State</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="shipping_state" name="shipping_state" placeholder="Shipping State" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="shipping_zip" class="col-sm-2 col-form-label">Shipping Zip</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="shipping_zip" name="shipping_zip" placeholder="Shipping Zip" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="shipping_country" class="col-sm-2 col-form-label">Shipping Country</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="shipping_country" name="shipping_country" placeholder="Shipping Country" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="payment_method" class="col-sm-2 col-form-label">Payment Method</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="payment_method" name="payment_method" placeholder="Payment Method" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="first_name" class="col-sm-2 col-form-label">First Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="last_name" class="col-sm-2 col-form-label">Last Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Checkout</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
 <script>
     function validate(form) {
         //check if payment amount is greater than total
