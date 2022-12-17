@@ -99,7 +99,7 @@ require __DIR__ . "/../../partials/nav.php";
                         <option value="5">Paypal</option>
                         <option value="6">Debit</option>
                     </select>
-                    <input type="number" class="form-control" name="money_recieved" placeholder="Payment Amount" required>
+                    <input type="number" class="form-control" name="money_received" placeholder="Payment Amount" required>
                     <!-- shipping address -->
                     <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
                     <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
@@ -117,7 +117,7 @@ require __DIR__ . "/../../partials/nav.php";
 <script>
     function validate(form) {
         //check if payment amount is greater than total
-        if (form.money_recieved.value < <?php safer_echo($total); ?>) {
+        if (form.money_received.value < <?php safer_echo($total); ?>) {
             alert("Payment amount is less than total");
             return false;
         }
@@ -125,7 +125,7 @@ require __DIR__ . "/../../partials/nav.php";
     }
 </script>
 <?php 
-if(isset($_POST["money_recieved"]) && isset($_POST["shipping_address"]) && isset($_POST["shipping_city"]) && isset($_POST["shipping_state"]) && isset($_POST["shipping_zip"]) && isset($_POST["shipping_country"]) && isset($_POST["payment_method"]) && isset($_POST["first_name"]) && isset($_POST["last_name"])){
+if(isset($_POST["money_received"]) && isset($_POST["shipping_address"]) && isset($_POST["shipping_city"]) && isset($_POST["shipping_state"]) && isset($_POST["shipping_zip"]) && isset($_POST["shipping_country"]) && isset($_POST["payment_method"]) && isset($_POST["first_name"]) && isset($_POST["last_name"])){
     //concat shipping address into one string
     $shipping_address = $_POST["shipping_address"] . ", " . $_POST["shipping_city"] . ", " . $_POST["shipping_state"] . ", " . $_POST["shipping_zip"] . ", " . $_POST["shipping_country"];
     //check if there is enough stock for each item in cart
@@ -151,13 +151,13 @@ if(isset($_POST["money_recieved"]) && isset($_POST["shipping_address"]) && isset
     
     
     $db = getDB();
-    $stmt = $db->prepare("INSERT INTO Orders (user_id, payment_method, shipping_address, total_price, money_recieved, first_name, last_name) VALUES (:user_id, :payment_method, :shipping_address, :total_price, :money_recieved, :first_name, :last_name)");
+    $stmt = $db->prepare("INSERT INTO Orders (user_id, payment_method, shipping_address, total_price, money_received, first_name, last_name) VALUES (:user_id, :payment_method, :shipping_address, :total_price, :money_received, :first_name, :last_name)");
     $r = $stmt->execute([
         ":user_id" => get_user_id(),
         ":payment_method" => $_POST["payment_method"],
         ":shipping_address" => $shipping_address,
         ":total_price" => $total,
-        ":money_recieved" => $_POST["money_recieved"],
+        ":money_received" => $_POST["money_received"],
         ":first_name" => $_POST["first_name"],
         ":last_name" => $_POST["last_name"]
     ]);
