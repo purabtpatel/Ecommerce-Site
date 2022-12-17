@@ -99,7 +99,7 @@ require __DIR__ . "/../../partials/nav.php";
                         <option value="Paypal">Paypal</option>
                         <option value="Debit">Debit</option>
                     </select>
-                    <input type="number" class="form-control" name="money_received" placeholder="Payment Amount" required>
+                    <input type="number" step="any" class="form-control" name="money_received" placeholder="Payment Amount" required>
                     <!-- shipping address -->
                     <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
                     <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
