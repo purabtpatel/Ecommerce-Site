@@ -248,4 +248,5 @@ if(isset($_POST["money_received"]) && isset($_POST["shipping_address"]) && isset
         die(header("Location: ViewCart.php"));
     }
 ?>
+<?php require(__DIR__ . "/partials/flash.php");?>
 
