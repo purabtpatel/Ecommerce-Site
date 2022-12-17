@@ -140,7 +140,7 @@ if(isset($_POST["money_recieved"]) && isset($_POST["shipping_address"]) && isset
             $r = $stmt->fetch(PDO::FETCH_ASSOC);
 
             flash("Not enough stock for " . $r["name"] . " only " . $stock["stock"] . " left");
-            die(header("Location: ViewCart.php"));
+            header("Location: ViewCart.php");
         }
     }
     
