@@ -55,22 +55,22 @@ require __DIR__ . "/../../partials/nav.php";
                         <tr>
                             <td><?php safer_echo($prodname["name"]); ?></td>
                             <td><?php safer_echo($r["desired_quantity"]); ?></td>
-                            <td><?php safer_echo($r["unit_price"]); ?> 
-                            <!-- if price from products table is different from price in cart, display a % change -->
-                            <?php if ($r["unit_price"] != $prices[$i]) : ?>
-                                <?php $total += $r["desired_quantity"] * $prices[$i]; ?>
-                                <?php $item_total = $r["desired_quantity"] * $prices[$i]; ?>
-                                <?php $change = ($prices[$i] - $r["unit_price"] ) / $prices[$i] * 100; ?>
-                                <span class="badge badge-success"><?php safer_echo($change); ?>%</span>
-                                <span class="badge badge-danger">($<?php safer_echo($prices[$i])?>)</span>
-                                <?php $i++; ?>
-                            <?php else : ?>
-                                <?php $total += $r["desired_quantity"] * $r["unit_price"]; ?>
-                                <?php $item_total = $r["desired_quantity"] * $r["unit_price"]; ?>
+                            <td><?php safer_echo($r["unit_price"]); ?>
+                                <!-- if price from products table is different from price in cart, display a % change -->
+                                <?php if ($r["unit_price"] != $prices[$i]) : ?>
+                                    <?php $total += $r["desired_quantity"] * $prices[$i]; ?>
+                                    <?php $item_total = $r["desired_quantity"] * $prices[$i]; ?>
+                                    <?php $change = ($prices[$i] - $r["unit_price"]) / $prices[$i] * 100; ?>
+                                    <span class="badge badge-success"><?php safer_echo($change); ?>%</span>
+                                    <span class="badge badge-danger">($<?php safer_echo($prices[$i]) ?>)</span>
+                                    <?php $i++; ?>
+                                <?php else : ?>
+                                    <?php $total += $r["desired_quantity"] * $r["unit_price"]; ?>
+                                    <?php $item_total = $r["desired_quantity"] * $r["unit_price"]; ?>
 
-                                <?php $i++; ?>
-                            <?php endif; ?>
-                            
+                                    <?php $i++; ?>
+                                <?php endif; ?>
+
                             </td>
                             <td>$<?php safer_echo($item_total); ?></td>
                         </tr>
@@ -78,7 +78,7 @@ require __DIR__ . "/../../partials/nav.php";
                 </tbody>
             </table>
             <!-- display total price using prices from products table -->
-            
+
             <div class="row">
                 <div class="col">
                     <h4>Total: <?php safer_echo($total); ?></h4>
@@ -87,7 +87,7 @@ require __DIR__ . "/../../partials/nav.php";
         </div>
     </div>
     <!-- checkout form -->
-    
+
 </div>
 <div class="container">
     <form method="POST" onsubmit="return validate(this);">
@@ -164,17 +164,17 @@ require __DIR__ . "/../../partials/nav.php";
         return true;
     }
 </script>
-<?php 
-if(isset($_POST["money_received"]) && isset($_POST["shipping_address"]) && isset($_POST["shipping_city"]) && isset($_POST["shipping_state"]) && isset($_POST["shipping_zip"]) && isset($_POST["shipping_country"]) && isset($_POST["payment_method"]) && isset($_POST["first_name"]) && isset($_POST["last_name"])){
+<?php
+if (isset($_POST["money_received"]) && isset($_POST["shipping_address"]) && isset($_POST["shipping_city"]) && isset($_POST["shipping_state"]) && isset($_POST["shipping_zip"]) && isset($_POST["shipping_country"]) && isset($_POST["payment_method"]) && isset($_POST["first_name"]) && isset($_POST["last_name"])) {
     //concat shipping address into one string
     $shipping_address = $_POST["shipping_address"] . ", " . $_POST["shipping_city"] . ", " . $_POST["shipping_state"] . ", " . $_POST["shipping_zip"] . ", " . $_POST["shipping_country"];
     //check if there is enough stock for each item in cart
     $bool = true;
-    foreach($results as $r){
+    foreach ($results as $r) {
         $stmt = $db->prepare("SELECT stock FROM Products WHERE id = :id");
         $r2 = $stmt->execute([":id" => $r["product_id"]]);
         $stock = $stmt->fetch(PDO::FETCH_ASSOC);
-        if($r["desired_quantity"] > $stock["stock"]){
+        if ($r["desired_quantity"] > $stock["stock"]) {
             //get name of product
             $stmt = $db->prepare("SELECT name FROM Products WHERE id = :id");
             $r2 = $stmt->execute([":id" => $r["product_id"]]);
@@ -184,69 +184,68 @@ if(isset($_POST["money_received"]) && isset($_POST["shipping_address"]) && isset
             $bool = false;
         }
     }
-    
-    //die(header("Location: ViewCart.php"));
-    
-    flash($shipping_address);
-    flash($_POST["payment_method"]);
-    flash($_POST["money_received"]);
-    flash($_POST["first_name"]);
-    flash($_POST["last_name"]);
-    //convert total to decimal
-    $total = number_format((float)$total, 2, '.', '');
-    flash($total);
+}
 
-    
-    //if there is enough stock for each item in cart
-    if($bool){
-        //create order
-        $stmt = $db->prepare("INSERT INTO Orders (user_id, shipping_address, payment_method, payment_amount, first_name, last_name) VALUES (:user_id, :shipping_address, :payment_method, :payment_amount, :first_name, :last_name)");
-        $r = $stmt->execute([
-            ":user_id" => get_user_id(),
-            ":shipping_address" => $shipping_address,
-            ":payment_method" => $_POST["payment_method"],
-            ":payment_amount" => $_POST["money_received"],
-            ":first_name" => $_POST["first_name"],
-            ":last_name" => $_POST["last_name"]
-        ]);
-        //get order id
-        $stmt = $db->prepare("SELECT id FROM Orders WHERE user_id = :user_id AND shipping_address = :shipping_address AND payment_method = :payment_method AND payment_amount = :payment_amount AND first_name = :first_name AND last_name = :last_name");
-        $r = $stmt->execute([
-            ":user_id" => get_user_id(),
-            ":shipping_address" => $shipping_address,
-            ":payment_method" => $_POST["payment_method"],
-            ":payment_amount" => $_POST["money_received"],
-            ":first_name" => $_POST["first_name"],
-            ":last_name" => $_POST["last_name"]
-        ]);
-        $order_id = $stmt->fetch(PDO::FETCH_ASSOC);
-        //create order items
-        foreach($results as $r){
-            $stmt = $db->prepare("INSERT INTO OrderItems (order_id, product_id, quantity) VALUES (:order_id, :product_id, :quantity)");
-            $r = $stmt->execute([
-                ":order_id" => $order_id["id"],
-                ":product_id" => $r["product_id"],
-                ":quantity" => $r["desired_quantity"]
-            ]);
-            //update stock
-            $stmt = $db->prepare("UPDATE Products SET stock = stock - :quantity WHERE id = :id");
-            $r = $stmt->execute([
-                ":quantity" => $r["desired_quantity"],
-                ":id" => $r["product_id"]
-            ]);
-        }
-        //delete cart
-        $stmt = $db->prepare("DELETE FROM Carts WHERE user_id = :user_id");
-        $r = $stmt->execute([
-            ":user_id" => get_user_id()
-        ]);
-        //redirect to order page
-        die(header("Location: ViewOrder.php?id=" . $order_id["id"]));
+//die(header("Location: ViewCart.php"));
 
-    } else {
-        //redirect to cart page
-        die(header("Location: ViewCart.php"));
+flash($shipping_address);
+flash($_POST["payment_method"]);
+flash($_POST["money_received"]);
+flash($_POST["first_name"]);
+flash($_POST["last_name"]);
+//convert total to decimal
+$total = number_format((float)$total, 2, '.', '');
+flash($total);
+
+
+//if there is enough stock for each item in cart
+if ($bool) {
+    //create order
+    $stmt = $db->prepare("INSERT INTO Orders (user_id, shipping_address, payment_method, payment_amount, first_name, last_name) VALUES (:user_id, :shipping_address, :payment_method, :payment_amount, :first_name, :last_name)");
+    $r = $stmt->execute([
+        ":user_id" => get_user_id(),
+        ":shipping_address" => $shipping_address,
+        ":payment_method" => $_POST["payment_method"],
+        ":payment_amount" => $_POST["money_received"],
+        ":first_name" => $_POST["first_name"],
+        ":last_name" => $_POST["last_name"]
+    ]);
+    //get order id
+    $stmt = $db->prepare("SELECT id FROM Orders WHERE user_id = :user_id AND shipping_address = :shipping_address AND payment_method = :payment_method AND payment_amount = :payment_amount AND first_name = :first_name AND last_name = :last_name");
+    $r = $stmt->execute([
+        ":user_id" => get_user_id(),
+        ":shipping_address" => $shipping_address,
+        ":payment_method" => $_POST["payment_method"],
+        ":payment_amount" => $_POST["money_received"],
+        ":first_name" => $_POST["first_name"],
+        ":last_name" => $_POST["last_name"]
+    ]);
+    $order_id = $stmt->fetch(PDO::FETCH_ASSOC);
+    //create order items
+    foreach ($results as $r) {
+        $stmt = $db->prepare("INSERT INTO OrderItems (order_id, product_id, quantity) VALUES (:order_id, :product_id, :quantity)");
+        $r = $stmt->execute([
+            ":order_id" => $order_id["id"],
+            ":product_id" => $r["product_id"],
+            ":quantity" => $r["desired_quantity"]
+        ]);
+        //update stock
+        $stmt = $db->prepare("UPDATE Products SET stock = stock - :quantity WHERE id = :id");
+        $r = $stmt->execute([
+            ":quantity" => $r["desired_quantity"],
+            ":id" => $r["product_id"]
+        ]);
     }
+    //delete cart
+    $stmt = $db->prepare("DELETE FROM Carts WHERE user_id = :user_id");
+    $r = $stmt->execute([
+        ":user_id" => get_user_id()
+    ]);
+    //redirect to order page
+    die(header("Location: ViewOrder.php?id=" . $order_id["id"]));
+} else {
+    //redirect to cart page
+    die(header("Location: ViewCart.php"));
+}
 ?>
-<?php require(__DIR__ . "/partials/flash.php");?>
-
+<?php require(__DIR__ . "/partials/flash.php"); ?>
