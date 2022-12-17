@@ -92,12 +92,12 @@ require __DIR__ . "/../../partials/nav.php";
             <form onsubmit="return validate(this)" method="POST">
                 <div class="form-group row">
                     <select class="form-control" name="payment_method">
-                        <option value="1">American Express</option>
-                        <option value="2">Visa</option>
-                        <option value="3">Mastercard</option>
-                        <option value="4">Discover</option>
-                        <option value="5">Paypal</option>
-                        <option value="6">Debit</option>
+                        <option value="American Express">American Express</option>
+                        <option value="Visa">Visa</option>
+                        <option value="Mastercard">Mastercard</option>
+                        <option value="Discover">Discover</option>
+                        <option value="Paypal">Paypal</option>
+                        <option value="Debit">Debit</option>
                     </select>
                     <input type="number" class="form-control" name="money_received" placeholder="Payment Amount" required>
                     <!-- shipping address -->
