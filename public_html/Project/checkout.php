@@ -145,7 +145,7 @@ if(isset($_POST["money_received"]) && isset($_POST["shipping_address"]) && isset
         }
     }
     if(!$bool){
-        die(header("Location: cart.php"));
+        die(header("Location: ViewCart.php"));
     }
     
     
