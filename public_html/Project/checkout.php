@@ -195,28 +195,29 @@ flash($_POST["first_name"]);
 flash($_POST["last_name"]);
 //convert total to decimal
 $total = number_format((float)$total, 2, '.', '');
+$money_received = number_format((float)$_POST["money_received"], 2, '.', '');
 flash($total);
 
 
 //if there is enough stock for each item in cart
 if ($bool) {
     //create order
-    $stmt = $db->prepare("INSERT INTO Orders (user_id, shipping_address, payment_method, payment_amount, first_name, last_name) VALUES (:user_id, :shipping_address, :payment_method, :payment_amount, :first_name, :last_name)");
+    $stmt = $db->prepare("INSERT INTO Orders (user_id, shipping_address, payment_method, money_received, first_name, last_name) VALUES (:user_id, :shipping_address, :payment_method, :money_received, :first_name, :last_name)");
     $r = $stmt->execute([
         ":user_id" => get_user_id(),
         ":shipping_address" => $shipping_address,
         ":payment_method" => $_POST["payment_method"],
-        ":payment_amount" => $_POST["money_received"],
+        ":money_received" => $money_received,
         ":first_name" => $_POST["first_name"],
         ":last_name" => $_POST["last_name"]
     ]);
     //get order id
-    $stmt = $db->prepare("SELECT id FROM Orders WHERE user_id = :user_id AND shipping_address = :shipping_address AND payment_method = :payment_method AND payment_amount = :payment_amount AND first_name = :first_name AND last_name = :last_name");
+    $stmt = $db->prepare("SELECT id FROM Orders WHERE user_id = :user_id AND shipping_address = :shipping_address AND payment_method = :payment_method AND money_received = :money_received AND first_name = :first_name AND last_name = :last_name");
     $r = $stmt->execute([
         ":user_id" => get_user_id(),
         ":shipping_address" => $shipping_address,
         ":payment_method" => $_POST["payment_method"],
-        ":payment_amount" => $_POST["money_received"],
+        ":money_received" => $money_received,
         ":first_name" => $_POST["first_name"],
         ":last_name" => $_POST["last_name"]
     ]);
