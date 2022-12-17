@@ -98,9 +98,9 @@ require __DIR__ . "/../../partials/nav.php";
             </div>
         </div>
         <div class="form-group row">
-            <label for="shipping_address" class="col-sm-2 col-form-label">Shipping Address</label>
+            <label for="address" class="col-sm-2 col-form-label">Shipping Address</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="shipping_address" name="shipping_address" placeholder="Shipping Address" required>
+                <input type="text" class="form-control" id="address" name="address" placeholder="Shipping Address" required>
             </div>
         </div>
         <div class="form-group row">
@@ -165,9 +165,9 @@ require __DIR__ . "/../../partials/nav.php";
     }
 </script>
 <?php
-if (isset($_POST["money_received"]) && isset($_POST["shipping_address"]) && isset($_POST["shipping_city"]) && isset($_POST["shipping_state"]) && isset($_POST["shipping_zip"]) && isset($_POST["shipping_country"]) && isset($_POST["payment_method"]) && isset($_POST["first_name"]) && isset($_POST["last_name"])) {
+if (isset($_POST["money_received"]) && isset($_POST["address"]) && isset($_POST["shipping_city"]) && isset($_POST["shipping_state"]) && isset($_POST["shipping_zip"]) && isset($_POST["shipping_country"]) && isset($_POST["payment_method"]) && isset($_POST["first_name"]) && isset($_POST["last_name"])) {
     //concat shipping address into one string
-    $shipping_address = $_POST["shipping_address"] . ", " . $_POST["shipping_city"] . ", " . $_POST["shipping_state"] . ", " . $_POST["shipping_zip"] . ", " . $_POST["shipping_country"];
+    $address = $_POST["address"] . ", " . $_POST["shipping_city"] . ", " . $_POST["shipping_state"] . ", " . $_POST["shipping_zip"] . ", " . $_POST["shipping_country"];
     //check if there is enough stock for each item in cart
     $bool = true;
     foreach ($results as $r) {
@@ -188,7 +188,7 @@ if (isset($_POST["money_received"]) && isset($_POST["shipping_address"]) && isse
 
 //die(header("Location: ViewCart.php"));
 
-flash($shipping_address);
+flash($address);
 flash($_POST["payment_method"]);
 flash($_POST["money_received"]);
 flash($_POST["first_name"]);
@@ -202,20 +202,21 @@ flash($total);
 //if there is enough stock for each item in cart
 if ($bool) {
     //create order
-    $stmt = $db->prepare("INSERT INTO Orders (user_id, shipping_address, payment_method, money_received, first_name, last_name) VALUES (:user_id, :shipping_address, :payment_method, :money_received, :first_name, :last_name)");
+    $stmt = $db->prepare("INSERT INTO Orders (user_id, total_price, address, payment_method, money_received, first_name, last_name) VALUES (:user_id, :address, :total_price, :payment_method, :money_received, :first_name, :last_name)");
     $r = $stmt->execute([
         ":user_id" => get_user_id(),
-        ":shipping_address" => $shipping_address,
+        ":total_price" => $total,
+        ":address" => $address,
         ":payment_method" => $_POST["payment_method"],
         ":money_received" => $money_received,
         ":first_name" => $_POST["first_name"],
         ":last_name" => $_POST["last_name"]
     ]);
     //get order id
-    $stmt = $db->prepare("SELECT id FROM Orders WHERE user_id = :user_id AND shipping_address = :shipping_address AND payment_method = :payment_method AND money_received = :money_received AND first_name = :first_name AND last_name = :last_name");
+    $stmt = $db->prepare("SELECT id FROM Orders WHERE user_id = :user_id AND address = :address AND payment_method = :payment_method AND money_received = :money_received AND first_name = :first_name AND last_name = :last_name");
     $r = $stmt->execute([
         ":user_id" => get_user_id(),
-        ":shipping_address" => $shipping_address,
+        ":address" => $address,
         ":payment_method" => $_POST["payment_method"],
         ":money_received" => $money_received,
         ":first_name" => $_POST["first_name"],
