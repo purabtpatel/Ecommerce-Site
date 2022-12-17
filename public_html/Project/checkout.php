@@ -144,9 +144,9 @@ if(isset($_POST["money_received"]) && isset($_POST["shipping_address"]) && isset
             $bool = false;
         }
     }
-    if(!$bool){
-        die(header("Location: ViewCart.php"));
-    }
+    
+    die(header("Location: ViewCart.php"));
+    
     flash($shipping_address);
     flash($_POST["payment_method"]);
     flash($_POST["money_received"]);
