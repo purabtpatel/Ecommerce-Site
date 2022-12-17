@@ -41,8 +41,8 @@ require __DIR__ . "/../../partials/nav.php";
                 <tbody>
                     <?php //setup counter to keep track of which price to use 
                     $i = 0;
-                    $total = 0;
-                    $item_total = 0;
+                    $total = 0.00;
+                    $item_total = 0.00;
                     ?>
 
                     <?php foreach ($results as $r) : ?>
@@ -153,6 +153,8 @@ if(isset($_POST["money_received"]) && isset($_POST["shipping_address"]) && isset
     flash($_POST["first_name"]);
     flash($_POST["last_name"]);
     flash($total);
+
+    
     
     
     
