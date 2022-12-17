@@ -152,6 +152,8 @@ if(isset($_POST["money_received"]) && isset($_POST["shipping_address"]) && isset
     flash($_POST["money_received"]);
     flash($_POST["first_name"]);
     flash($_POST["last_name"]);
+    //convert total to decimal
+    $total = number_format((float)$total, 2, '.', '');
     flash($total);
 
     
