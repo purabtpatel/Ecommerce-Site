@@ -128,7 +128,7 @@ require __DIR__ . "/../../partials/nav.php";
 if(isset($_POST["money_recieved"]) && isset($_POST["shipping_address"]) && isset($_POST["shipping_city"]) && isset($_POST["shipping_state"]) && isset($_POST["shipping_zip"]) && isset($_POST["shipping_country"]) && isset($_POST["payment_method"]) && isset($_POST["first_name"]) && isset($_POST["last_name"])){
     //concat shipping address into one string
     $shipping_address = $_POST["shipping_address"] . ", " . $_POST["shipping_city"] . ", " . $_POST["shipping_state"] . ", " . $_POST["shipping_zip"] . ", " . $_POST["shipping_country"];
-    
+    flash("check1");
     //check if there is enough stock for each item in cart
     foreach($results as $r){
         $stmt = $db->prepare("SELECT stock FROM Products WHERE id = :id");
@@ -144,6 +144,7 @@ if(isset($_POST["money_recieved"]) && isset($_POST["shipping_address"]) && isset
             die(header("Location: view_cart.php"));
         }
     }
+    flash("check2");
     
     
     
@@ -167,5 +168,6 @@ if(isset($_POST["money_recieved"]) && isset($_POST["shipping_address"]) && isset
         flash("Error placing order: " . var_export($e, true));
     }
     
+    flash("check3");
 
 }
