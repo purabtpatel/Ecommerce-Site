@@ -86,6 +86,86 @@ require __DIR__ . "/../../partials/nav.php";
             </div>
         </div>
     </div>
-
-
+    <!-- checkout form -->
+    <div class="row">
+        <div class="col">
+            <form onsubmit="return validate(this)" method="POST">
+                <div class="form-group row">
+                    <select class="form-control" name="payment_method">
+                        <option value="1">American Express</option>
+                        <option value="2">Visa</option>
+                        <option value="3">Mastercard</option>
+                        <option value="4">Discover</option>
+                        <option value="5">Paypal</option>
+                        <option value="6">Debit</option>
+                    </select>
+                    <input type="number" class="form-control" name="money_recieved" placeholder="Payment Amount" required>
+                    <!-- shipping address -->
+                    <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
+                    <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
+                    <input type="text" class="form-control" name="shipping_address" placeholder="Shipping Address" required>
+                    <input type="text" class="form-control" name="shipping_city" placeholder="Shipping City" required>
+                    <input type="text" class="form-control" name="shipping_state" placeholder="Shipping State" required>
+                    <input type="text" class="form-control" name="shipping_zip" placeholder="Shipping Zip" required>
+                    <input type="text" class="form-control" name="shipping_country" placeholder="Shipping Country" required>
+                    <input type="submit" class="btn btn-primary" value="Checkout">
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+<script>
+    function validate(form) {
+        //check if payment amount is greater than total
+        if (form.money_recieved.value < <?php safer_echo($total); ?>) {
+            alert("Payment amount is less than total");
+            return false;
+        }
+        return true;
+    }
+</script>
+<?php 
+if(isset($_POST["money_recieved"]) && isset($_POST["shipping_address"]) && isset($_POST["shipping_city"]) && isset($_POST["shipping_state"]) && isset($_POST["shipping_zip"]) && isset($_POST["shipping_country"]) && isset($_POST["payment_method"]) && isset($_POST["first_name"]) && isset($_POST["last_name"])){
+    //concat shipping address into one string
+    $shipping_address = $_POST["shipping_address"] . ", " . $_POST["shipping_city"] . ", " . $_POST["shipping_state"] . ", " . $_POST["shipping_zip"] . ", " . $_POST["shipping_country"];
+    
+    //check if there is enough stock for each item in cart
+    foreach($results as $r){
+        $stmt = $db->prepare("SELECT stock FROM Products WHERE id = :id");
+        $r2 = $stmt->execute([":id" => $r["product_id"]]);
+        $stock = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($r["desired_quantity"] > $stock["stock"]){
+            //get name of product
+            $stmt = $db->prepare("SELECT name FROM Products WHERE id = :id");
+            $r2 = $stmt->execute([":id" => $r["product_id"]]);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            flash("Not enough stock for " . $r["name"] . " only " . $stock["stock"] . " left");
+            die(header("Location: view_cart.php"));
+        }
+    }
+    
+    
+    
+    
+    $db = getDB();
+    $stmt = $db->prepare("INSERT INTO Orders (user_id, payment_method, shipping_address, total_price, money_recieved, first_name, last_name) VALUES (:user_id, :payment_method, :shipping_address, :total_price, :money_recieved, :first_name, :last_name)");
+    $r = $stmt->execute([
+        ":user_id" => get_user_id(),
+        ":payment_method" => $_POST["payment_method"],
+        ":shipping_address" => $shipping_address,
+        ":total_price" => $total,
+        ":money_recieved" => $_POST["money_recieved"],
+        ":first_name" => $_POST["first_name"],
+        ":last_name" => $_POST["last_name"]
+    ]);
+    if ($r) {
+        flash("Order placed successfully");
+    }
+    else {
+        $e = $stmt->errorInfo();
+        flash("Error placing order: " . var_export($e, true));
+    }
+    
+
+}
