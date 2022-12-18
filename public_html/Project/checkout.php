@@ -130,7 +130,14 @@ require __DIR__ . "/../../partials/nav.php";
         <div class="form-group row">
             <label for="payment_method" class="col-sm-2 col-form-label">Payment Method</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="payment_method" name="payment_method" placeholder="Payment Method" required>
+                <select class="form-control" id="payment_method" name="payment_method" required>
+                    <option value="Visa">Visa</option>
+                    <option value="Mastercard">Mastercard</option>
+                    <option value="Discover">Discover</option>
+                    <option value="American Express">American Express</option>
+                    <option value="Paypal">Paypal</option>
+                    <option value="Debit">Debit</option>
+                </select>
             </div>
         </div>
         <div class="form-group row">
@@ -167,7 +174,8 @@ require __DIR__ . "/../../partials/nav.php";
 <?php
 if (isset($_POST["money_received"]) && isset($_POST["address"]) && isset($_POST["shipping_city"]) && isset($_POST["shipping_state"]) && isset($_POST["shipping_zip"]) && isset($_POST["shipping_country"]) && isset($_POST["payment_method"]) && isset($_POST["first_name"]) && isset($_POST["last_name"])) {
     //concat shipping address into one string
-    $address = $_POST["address"] . ", " . $_POST["shipping_city"] . ", " . $_POST["shipping_state"] . ", " . $_POST["shipping_zip"] . ", " . $_POST["shipping_country"];
+    $address = se($_POST, "shipping_city", "", false) . ", " . se($_POST, "shipping_state", "", false) . ", " . se($_POST, "shipping_zip", "", false) . ", " . se($_POST, "shipping_country", "", false);
+    
     //check if there is enough stock for each item in cart
     $bool = true;
     foreach ($results as $r) {
