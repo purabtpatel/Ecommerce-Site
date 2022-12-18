@@ -247,6 +247,7 @@ if ($bool) {
         ":user_id" => get_user_id()
     ]);
     //redirect to order page
+    die(header("Location: ViewOrder.php?id=" . $order_id["id"]));
     
 } else {
     //redirect to cart page
