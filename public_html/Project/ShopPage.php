@@ -98,22 +98,11 @@ require(__DIR__ . "/../../partials/nav.php");
                         <a href="add_to_cart.php?id=<?php safer_echo($r['id']); ?>" class="btn btn-primary">Add to Cart</a>
                         <?php if (has_role("Admin")) : ?>
                             <!-- pass in all of current products details to edit_products.php-->
-                            <a href="edit_products.php?
-                                id=<?php safer_echo($r['id']); ?>&
-                                name=<?php safer_echo($r['name']) ?>&
-                                description=<?php safer_echo($r['description']) ?>&
-                                category=<?php safer_echo($r['category']) ?>&
-                                unit_price=<?php safer_echo($r['unit_price']) ?>&
-                                stock=<?php safer_echo($r['stock']) ?>&
-                                visibility=<?php safer_echo($r['visibility']) ?>" class="btn btn-primary">Edit</a>
+                            <a href="admin/edit_products.php?
+                                id=<?php safer_echo($r['id']); ?>" class="btn btn-primary">Edit</a>
                         <?php endif; ?>
                         <a href="ProductDetailsPage.php?
-                                id=<?php safer_echo($r['id']); ?>&
-                                name=<?php safer_echo($r['name']) ?>&
-                                description=<?php safer_echo($r['description']) ?>&
-                                category=<?php safer_echo($r['category']) ?>&
-                                unit_price=<?php safer_echo($r['unit_price']) ?>&
-                                stock=<?php safer_echo($r['stock']) ?>" class="btn btn-primary">View</a>
+                                id=<?php safer_echo($r['id']); ?>" class="btn btn-primary">View</a>
                     </div>
                 </div>
             </div>
