@@ -12,4 +12,5 @@ CREATE TABLE IF NOT EXISTS `Orders` (
     `last_name` VARCHAR(255) NOT NULL,
     PRIMARY KEY (`id`),
     Foreign Key (`user_id`) References `Users`(`id`)
+
 )
