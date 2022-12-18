@@ -6,12 +6,19 @@ if (!has_role("Admin") && !has_role("Shop Owner")) {
     die(header("Location: login.php"));
 }
 $id = $_GET["id"];
-$name = $_GET["name"];
-$description = $_GET["description"];
-$category = $_GET["category"];
-$unit_price = $_GET["unit_price"];
-$stock = $_GET["stock"];
-$visibility = $_GET["visibility"];
+//fetch product info from database based on id
+$db = getDB();
+$stmt = $db->prepare("SELECT * FROM Products WHERE id = :id");
+$r = $stmt->execute([":id" => $id]);
+$product = $stmt->fetch(PDO::FETCH_ASSOC);
+$id = $product["id"];
+$name = $product["name"];
+$description = $product["description"];
+$category = $product["category"];
+$unit_price = $product["unit_price"];
+$stock = $product["stock"];
+$visibility = $product["visibility"];
+
 
 ?>
 
