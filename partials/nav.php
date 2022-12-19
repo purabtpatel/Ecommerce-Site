@@ -36,6 +36,7 @@ session_start();
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <?php if (is_logged_in()) : ?>
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('profile.php'); ?>">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo get_url('OrderHistory.php'); ?>">Orders</a></li>
                 <?php endif; ?>
                 <?php if (!is_logged_in()) : ?>
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('login.php'); ?>">Login</a></li>
@@ -66,6 +67,8 @@ session_start();
                 <?php endif; ?>
                 <li class="nav-item"><a class="nav-link" href="<?php echo get_url('ShopPage.php'); ?>">Shop</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php echo get_url('ViewCart.php'); ?>">Cart</a></li>
+                
+
                 <?php if (is_logged_in()) : ?>
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('logout.php'); ?>">Logout</a></li>
                 <?php endif; ?>
