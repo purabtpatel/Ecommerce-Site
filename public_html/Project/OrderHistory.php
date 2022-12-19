@@ -26,7 +26,7 @@ if(!is_logged_in()){
                     $stmt->execute([":id" => get_user_id()]);
                     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     foreach ($result as $r) {
-                        echo "<tr><td>" . $r["id"] . "</td><td>" . $r["total_price"] . "</td><td>" . $r["created"] . "</td><td><a type=\"button\" href=\"ViewOrder.php?id=" . $r["id"] . "\" class=\"btn btn-primary\">View Order</a></td></tr>";
+                        echo "<tr><td>" . $r["id"] . "</td><td>" . $r["total_price"] . "</td><td>" . $r["created"] . "</td><td><a type=\"button\" href=\"ViewOrder.php?id=" . $r["id"] . "&new=0\" class=\"btn btn-primary\">View Order</a></td></tr>";
                     }
                     ?>
                 </tbody>
