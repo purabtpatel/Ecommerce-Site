@@ -3,7 +3,7 @@ require __DIR__ . "/../../partials/nav.php";
 ?>
 <!-- display the order by getting the order id from the url -->
 <div class="container">
-    <h3>Order</h3>
+    <h3>Order Confirmed! Enjoy your purchase!</h3>
     <?php
     //fetch all products from cart
     $db = getDB();
