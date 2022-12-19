@@ -37,4 +37,7 @@ require(__DIR__ . "/reset_session.php");
 
 require(__DIR__ . "/get_url.php");
 
+//redirect 
+require(__DIR__ . "/Redirect.php");
+
 ?>
