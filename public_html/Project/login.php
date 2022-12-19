@@ -94,7 +94,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                         }
                         //flash("Welcome, " . get_username());
 
-                        die(header("Location: home.php"));
+                        redirect("/Project/home.php");
                     } else {
                         flash("Invalid password");
                     }

@@ -64,6 +64,7 @@ session_start();
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/list_products.php'); ?>">List</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo get_url('admin/SaleHistory.php'); ?>">All Sales</a></li>
                 <?php endif; ?>
                 <li class="nav-item"><a class="nav-link" href="<?php echo get_url('ShopPage.php'); ?>">Shop</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php echo get_url('ViewCart.php'); ?>">Cart</a></li>
