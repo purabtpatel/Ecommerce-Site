@@ -2,6 +2,20 @@
 require __DIR__ . "/../../partials/nav.php";
 ?>
 <!-- display the order by getting the order id from the url -->
+<?php
+if (!is_logged_in()) {
+    die(header("Location: login.php"));
+}
+//check if order id belongs to logged in user
+$db = getDB();
+$stmt = $db->prepare("SELECT * FROM Orders WHERE id = :id");
+$stmt->execute([":id" => $_GET["id"]]);
+$r = $stmt->fetch(PDO::FETCH_ASSOC);
+if ($r["user_id"] != get_user_id()) {
+    flash("You don't have permission to view this order", "warning");
+    die(header("Location: profile.php"));
+}
+?>
 <div class="container">
     <h3>Order Confirmed! Enjoy your purchase!</h3>
     <?php
