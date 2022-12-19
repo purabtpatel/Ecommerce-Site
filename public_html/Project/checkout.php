@@ -247,7 +247,7 @@ if (isset($_POST["money_received"]) && isset($_POST["address"]) && isset($_POST[
             ":user_id" => get_user_id()
         ]);
         //redirect to order page
-        redirect("ViewOrder.php?id=" . $order_id["id"]);
+        redirect("ViewOrder.php?id=" . $order_id["id"]. "&new=1");
     } else {
         //redirect to cart page
         redirect("ViewCart.php");

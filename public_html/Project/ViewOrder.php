@@ -17,7 +17,9 @@ if ($r["user_id"] != get_user_id()) {
 }
 ?>
 <div class="container">
-    <h3>Order Confirmed! Enjoy your purchase!</h3>
+    <?php if($_GET["new"] == 1): ?>
+        <h3>Order Placed! Enjoy your purchase!</h3>
+    <?php endif; ?>
     <?php
     //fetch all products from cart
     $db = getDB();
