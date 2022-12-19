@@ -178,8 +178,9 @@ if (isset($_POST["money_received"]) && isset($_POST["address"]) && isset($_POST[
             $stmt = $db->prepare("SELECT name FROM Products WHERE id = :id");
             $r2 = $stmt->execute([":id" => $r["product_id"]]);
             $r = $stmt->fetch(PDO::FETCH_ASSOC);
-            header("Location: ViewCart.php");
-            flash("Not enough stock for " . $r["name"] . " only " . $stock["stock"] . " left");
+            flash("Not enough stock for " . $r["name"] . " only " . $stock["stock"] . " left", "warning");
+            die(header("Location: ViewCart.php"));
+            
             $bool = false;
         }
     }
