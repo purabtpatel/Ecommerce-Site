@@ -179,7 +179,7 @@ if (isset($_POST["money_received"]) && isset($_POST["address"]) && isset($_POST[
             $r2 = $stmt->execute([":id" => $r["product_id"]]);
             $r = $stmt->fetch(PDO::FETCH_ASSOC);
             flash("Not enough stock for " . $r["name"] . " only " . $stock["stock"] . " left", "warning");
-            die(header("Location: ViewCart.php"));
+            redirect("ViewCart.php");
             
             $bool = false;
         }
@@ -247,10 +247,10 @@ if (isset($_POST["money_received"]) && isset($_POST["address"]) && isset($_POST[
             ":user_id" => get_user_id()
         ]);
         //redirect to order page
-        die(header("Location: ViewOrder.php?id=" . $order_id["id"]));
+        redirect("ViewOrder.php?id=" . $order_id["id"]);
     } else {
         //redirect to cart page
-        die(header("Location: ViewCart.php"));
+        redirect("ViewCart.php");
     }
 }
 ?>
