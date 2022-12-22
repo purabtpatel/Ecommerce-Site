@@ -38,6 +38,13 @@ require(__DIR__ . "/../../partials/nav.php");
             <label for="name">Name</label>
             <input type="text" class="form-control" id="name" name="name" placeholder="Search by name">
         </div>
+        <div class="form-group">
+            <label for="rating">Rating</label>
+            <select class="form-control" id="rating" name="rating">
+                <option value="ascend">Lowest to Highest</option>
+                <option value="descend">Highest to Lowest</option>
+            </select>
+        </div>
         <input type="submit" class="btn btn-primary" value="Search" />
     </form>
     <?php
@@ -65,6 +72,16 @@ require(__DIR__ . "/../../partials/nav.php");
         }
         else if($price == "descend"){
             $query = $query . " ORDER BY unit_price DESC, created DESC LIMIT 10";
+        }
+    }
+    else if(isset($_GET["rating"])){
+        $rating = $_GET["rating"];
+        //only get last 10 products by created date
+        if($rating == "ascend"){
+            $query = $query . " ORDER BY rating ASC, created DESC LIMIT 10";
+        }
+        else if($rating == "descend"){
+            $query = $query . " ORDER BY rating DESC, created DESC LIMIT 10";
         }
     }
     else{
