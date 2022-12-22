@@ -108,6 +108,21 @@ require(__DIR__ . "/../../partials/nav.php");
             </div>
         <?php endforeach; ?>
     </div>
+    <?php 
+    $headers = "?";
+    ?>
+    <div class="row">
+        <div class="col">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination
+                justify-content-center">
+                    <li class="page-item"><a class="page-link" href=<?php echo "Orders.php" . $headers . "page=1"; ?>>1</a></li>
+                    <li class="page-item"><a class="page-link" href=<?php echo "Orders.php" . $headers . "page=2"; ?>>2</a></li>
+                    <li class="page-item"><a class="page-link" href=<?php echo "Orders.php" . $headers . "page=3"; ?>>3</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
 </div>
 
 
