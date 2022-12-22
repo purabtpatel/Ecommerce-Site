@@ -13,6 +13,33 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div class="container-fluid">
     <h1>Products</h1>
+    <!-- filter for out of stock products -->
+    <form method="POST">
+        <div class="form-group">
+            <label for="stock">Filter by Stock</label>
+            <select class="form-control" id="stock" name="stock">
+                <option value="0">All</option>
+                <option value="1">In Stock</option>
+                <option value="2">Out of Stock</option>
+            </select>
+        </div>
+        <input class="btn btn-primary" type="submit" name="search" value="Search"/>
+    </form>
+    <?php
+    if (isset($_POST["search"])) {
+        $stock = $_POST["stock"];
+        if ($stock == 1) {
+            $stmt = $db->prepare("SELECT * FROM Products WHERE stock > 0 ORDER BY id DESC");
+            $r = $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else if ($stock == 2) {
+            $stmt = $db->prepare("SELECT * FROM Products WHERE stock = 0 ORDER BY id DESC");
+            $r = $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+    }
+    ?>
+
     <div class="row">
         <?php foreach ($results as $r) : ?>
             <div class="col-4">
