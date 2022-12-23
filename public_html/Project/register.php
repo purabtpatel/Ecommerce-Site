@@ -27,13 +27,15 @@ reset_session();
         <input type="submit" class="mt-3 btn btn-primary" value="Register" />
     </form>
 </div>
+
 <script>
     function validate(form) {
         //TODO 1: implement JavaScript validation
         //ensure it returns false for an error and true for success
 
+
         //keep form values if there is an error
-        
+
         return true;
     }
 </script>
@@ -84,6 +86,7 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
         flash("Passwords must match", "danger");
         $hasError = true;
     }
+
 
     
     //check db for existing email or username

@@ -65,6 +65,7 @@ var space = false;
 
 // Is a bullet already on the canvas?
 var shooting = false;
+
 //ptp25 11/09/22
 
 // The bullet shot from the ship
@@ -174,7 +175,9 @@ function endGame() {
   context.textAlign = 'center';
   context.fillText('Game Over. Final Score: ' + score, canvas.width / 2, canvas.height / 2);
 }
+
 //ptp25 11/09/22
+
 // Listen for keydown events
 canvas.addEventListener('keydown', function(event) {
   event.preventDefault();
@@ -226,6 +229,7 @@ function erase() {
 
 
 //ptp25 11/09/22
+
 // Shoot the bullet (if not already on screen)
 function shoot() {
   if (!shooting && !powered) {
@@ -324,6 +328,7 @@ function draw() {
   // Move and draw the bullet
 
   //ptp25 11/09/22
+
   // if shooting and not powered
   if (shooting && !powered) {
     

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Passing $redirect as true will auto redirect a logged out user to the $destination.
  * The destination defaults to login.php
@@ -33,6 +34,7 @@ function get_username()
     }
     return "";
 }
+
 function get_user_email()
 {
     if (is_logged_in()) { //we need to check for login first because "user" key may not exist
@@ -40,7 +42,6 @@ function get_user_email()
     }
     return "";
 }
-
 function get_user_id()
 {
     if (is_logged_in()) { //we need to check for login first because "user" key may not exist

@@ -1,6 +1,7 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
 ?>
+
 <div class="container-fluid">
     <h1>Login</h1>
     <form onsubmit="return validate(this)" method="POST">
@@ -15,6 +16,7 @@ require(__DIR__ . "/../../partials/nav.php");
         <input type="submit" class="mt-3 btn btn-primary" value="Login" />
     </form>
 </div>
+
 <script>
     function validate(form) {
         //TODO 1: implement JavaScript validation
@@ -32,6 +34,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     //TODO 3
     $hasError = false;
     if (empty($email)) {
+
         flash("Email must not be empty");
         $hasError = true;
     }
@@ -43,6 +46,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         flash("Invalid email address");
         $hasError = true;
     }*/
+
     if (!is_valid_email($email)) {
         flash("Invalid email address");
         $hasError = true;
@@ -64,7 +68,6 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         $db = getDB();
         $stmt = $db->prepare("SELECT id, email, username, password from Users 
         where email = :email");
-
         try {
             $r = $stmt->execute([":email" => $email]);
             if ($r) {
@@ -110,7 +113,6 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     }
 }
 ?>
-
 <?php 
 require(__DIR__."/../../partials/flash.php");
 

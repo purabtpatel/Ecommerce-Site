@@ -8,6 +8,7 @@ if (!is_logged_in()) {
 if (isset($_POST["save"])) {
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
+
     //convert $_POST["privacy"] to int
     $privacy = (int)$_POST["privacy"];
 
@@ -39,6 +40,7 @@ if (isset($_POST["save"])) {
                 //TODO come up with a nice error message
                 echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
             }
+
         }
         //select fresh data from table
         $stmt = $db->prepare("SELECT id, email, username from Users where id = :id LIMIT 1");
@@ -57,7 +59,6 @@ if (isset($_POST["save"])) {
             //echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
         }
     }
-
 
 
 
@@ -96,6 +97,7 @@ if (isset($_POST["save"])) {
 
             } else {
                 flash("Invalid password", "warning");
+
             }
         } else {
             flash("New passwords don't match", "warning");
@@ -153,6 +155,7 @@ $username = get_username();
         <input type="submit" class="mt-3 btn btn-primary" value="Update Profile" name="save" />
     </form>
 </div>
+
 
 <script>
     function validate(form) {
