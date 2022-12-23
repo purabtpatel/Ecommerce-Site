@@ -1,30 +1,40 @@
 
 <?php
 require(__DIR__ . "/../../partials/nav.php");
+
+reset_session();
+
 ?>
-<form onsubmit="return validate(this)" method="POST">
-    <div>
-        <label for="email">Email</label>
-        <input type="email" name="email" required />
-    </div>
-    <div>
-        <label for="username">Username</label>
-        <input type="text" name="username" required maxlength="30" />
-    </div>
-    <div>
-        <label for="pw">Password</label>
-        <input type="password" id="pw" name="password" required minlength="8" />
-    </div>
-    <div>
-        <label for="confirm">Confirm</label>
-        <input type="password" name="confirm" required minlength="8" />
-    </div>
-    <input type="submit" value="Register" />
-</form>
+<div class="container-fluid">
+    <h1>Register</h1>
+    <form onsubmit="return validate(this)" method="POST">
+        <div class="mb-3">
+            <label class="form-label" for="email">Email</label>
+            <input class="form-control" type="email" id="email" name="email" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="username">Username</label>
+            <input class="form-control" type="text" name="username" required maxlength="30" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="pw">Password</label>
+            <input class="form-control" type="password" id="pw" name="password" required minlength="8" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="confirm">Confirm</label>
+            <input class="form-control" type="password" name="confirm" required minlength="8" />
+        </div>
+        <input type="submit" class="mt-3 btn btn-primary" value="Register" />
+    </form>
+</div>
+
 <script>
     function validate(form) {
         //TODO 1: implement JavaScript validation
         //ensure it returns false for an error and true for success
+
+
+        //keep form values if there is an error
 
         return true;
     }
@@ -76,6 +86,30 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
         flash("Passwords must match", "danger");
         $hasError = true;
     }
+
+
+    
+    //check db for existing email or username
+    $db = getDB();
+    $stmt = $db->prepare("SELECT email, username from Users where email = :email OR username = :username");
+    $r = $stmt->execute([":email" => $email, ":username" => $username]);
+    if ($r) {
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($user) {
+            flash("Email or username already exists", "danger");
+            $hasError = true;
+        }
+    }
+    // $stmt = $db->prepare("SELECT email from Users where email = :email");
+    // $r = $r = $stmt->execute([":email" => $email]);
+    // if ($r) {
+    //     $e = $stmt->fetch(PDO::FETCH_ASSOC);
+    //     if ($e) {
+    //         flash("Email already exists", "danger");
+    //         $hasError = true;
+    //     }
+    // }
+    
     if (!$hasError) {
         //TODO 4
         $hash = password_hash($password, PASSWORD_BCRYPT);
