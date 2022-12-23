@@ -4,7 +4,9 @@ require(__DIR__ . "/../../../partials/nav.php");
 
 if (!has_role("Admin")) {
     flash("You don't have permission to view this page", "warning");
+
     die(header("Location: $BASE_PATH" . "home.php"));
+
 }
 //attempt to apply
 if (isset($_POST["users"]) && isset($_POST["roles"])) {
@@ -68,6 +70,7 @@ if (isset($_POST["username"])) {
 
 
 ?>
+
 <div class="container-fluid">
     <h1>Assign Roles</h1>
     <form method="POST" class="row row-cols-lg-auto g-3 align-items-center">
@@ -114,6 +117,7 @@ if (isset($_POST["username"])) {
         <input type="submit" class="btn btn-primary" value="Toggle Roles" />
     </form>
 </div>
+
 <?php
 //note we need to go up 1 more directory
 require_once(__DIR__ . "/../../../partials/flash.php");

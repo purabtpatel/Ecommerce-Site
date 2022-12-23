@@ -17,9 +17,11 @@ if (isset($_POST["save"])) {
     } else if (!is_valid_username($username)) {
         flash("Invalid username", "warning");
     } else {
+
         $params = [":email" => $email, ":username" => $username, ":id" => get_user_id(), ":privacy" => $privacy];
         $db = getDB();
         $stmt = $db->prepare("UPDATE Users set email = :email, username = :username, privacy = :privacy where id = :id");
+
         try {
             $stmt->execute($params);
             flash("Profile saved", "success");
@@ -69,8 +71,9 @@ if (isset($_POST["save"])) {
     if (!empty($current_password) && !empty($new_password) && !empty($confirm_password)) {
         if ($new_password === $confirm_password) {
             //TODO validate current
+
             if (is_valid_password($new_password)) {
-                $stmt = $db->prepare("SELECT password from Users where id = :id");
+            $stmt = $db->prepare("SELECT password from Users where id = :id");
                 try {
                     $stmt->execute([":id" => get_user_id()]);
                     $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -82,7 +85,6 @@ if (isset($_POST["save"])) {
                                 ":id" => get_user_id(),
                                 ":password" => password_hash($new_password, PASSWORD_BCRYPT)
                             ]);
-
                             flash("Password reset", "success");
                         } else {
                             flash("Current password is invalid", "warning");
@@ -91,6 +93,7 @@ if (isset($_POST["save"])) {
                 } catch (Exception $e) {
                     echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
                 }
+
             } else {
                 flash("Invalid password", "warning");
             }

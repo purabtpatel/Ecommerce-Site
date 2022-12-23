@@ -92,9 +92,11 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                         } else {
                             $_SESSION["user"]["roles"] = []; //no roles
                         }
+
                         //flash("Welcome, " . get_username());
 
                         redirect("/Project/home.php");
+
                     } else {
                         flash("Invalid password");
                     }

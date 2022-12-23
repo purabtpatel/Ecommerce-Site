@@ -42,6 +42,7 @@ if (isset($_POST["name"]) && isset($_POST["description"])) {
         <input type="submit" class="btn btn-primary" value="Create Role" />
     </form>
 </div>
+
 <?php
 //note we need to go up 1 more directory
 require_once(__DIR__ . "/../../../partials/flash.php");
