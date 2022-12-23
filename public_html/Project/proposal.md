@@ -34,15 +34,40 @@
     -  Link to related .md file: https://github.com/purabtpatel/IT202-009/pull/41
   - [x] \(11/13/22) User will be able to see their profile
     -  Link to related .md file: https://github.com/purabtpatel/IT202-009/pull/42
-  - [ ] \(11/13/22) User will be able to edit their profile
+  - [x] \(11/13/22) User will be able to edit their profile
     -  Link to related .md file: https://github.com/purabtpatel/IT202-009/pull/43
 - Milestone 2
-  - (duplicate template here for Milestone 1 features)
+  - https://github.com/purabtpatel/IT202-009/issues/45
+  - https://github.com/purabtpatel/IT202-009/issues/46
+  - https://github.com/purabtpatel/IT202-009/issues/47
+  - https://github.com/purabtpatel/IT202-009/issues/48
+  - https://github.com/purabtpatel/IT202-009/issues/49
+  - https://github.com/purabtpatel/IT202-009/issues/50
+  - https://github.com/purabtpatel/IT202-009/issues/51
+  - https://github.com/purabtpatel/IT202-009/issues/52
+  - https://github.com/purabtpatel/IT202-009/issues/53
+  - https://github.com/purabtpatel/IT202-009/issues/54
+  - https://github.com/purabtpatel/IT202-009/issues/55
+
 - Milestone 3
-  - (duplicate template here for Milestone 1 features)
+  - https://github.com/purabtpatel/IT202-009/issues/65
+  - https://github.com/purabtpatel/IT202-009/issues/66
+  - https://github.com/purabtpatel/IT202-009/issues/67
+  - https://github.com/purabtpatel/IT202-009/issues/68
+  - https://github.com/purabtpatel/IT202-009/issues/69
+  - https://github.com/purabtpatel/IT202-009/issues/70
 - Milestone 4
-  - (duplicate template here for Milestone 1 features)
-  - 
+  - https://github.com/purabtpatel/IT202-009/issues/80
+  - https://github.com/purabtpatel/IT202-009/issues/81
+  - https://github.com/purabtpatel/IT202-009/issues/82
+  - https://github.com/purabtpatel/IT202-009/issues/83
+  - https://github.com/purabtpatel/IT202-009/issues/84
+  - https://github.com/purabtpatel/IT202-009/issues/85
+  - https://github.com/purabtpatel/IT202-009/issues/86
+
+Youtube link:
+- https://www.youtube.com/watch?v=dIcJZ7ZBaUY
+
 ### Intructions
 #### Don't delete this
 1. Pick one project type
