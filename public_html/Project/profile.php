@@ -8,6 +8,8 @@ if (!is_logged_in()) {
 if (isset($_POST["save"])) {
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
+    //convert $_POST["privacy"] to int
+    $privacy = (int)$_POST["privacy"];
 
     //check if email and username are valid
     if (!is_valid_email($email)) {
@@ -15,9 +17,11 @@ if (isset($_POST["save"])) {
     } else if (!is_valid_username($username)) {
         flash("Invalid username", "warning");
     } else {
-        $params = [":email" => $email, ":username" => $username, ":id" => get_user_id()];
+
+        $params = [":email" => $email, ":username" => $username, ":id" => get_user_id(), ":privacy" => $privacy];
         $db = getDB();
-        $stmt = $db->prepare("UPDATE Users set email = :email, username = :username where id = :id");
+        $stmt = $db->prepare("UPDATE Users set email = :email, username = :username, privacy = :privacy where id = :id");
+
         try {
             $stmt->execute($params);
             flash("Profile saved", "success");
@@ -31,12 +35,10 @@ if (isset($_POST["save"])) {
                     //TODO come up with a nice error message
                     echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
                 }
-
             } else {
                 //TODO come up with a nice error message
                 echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
             }
-
         }
         //select fresh data from table
         $stmt = $db->prepare("SELECT id, email, username from Users where id = :id LIMIT 1");
@@ -69,8 +71,9 @@ if (isset($_POST["save"])) {
     if (!empty($current_password) && !empty($new_password) && !empty($confirm_password)) {
         if ($new_password === $confirm_password) {
             //TODO validate current
-            if(is_valid_password($new_password)){
-                $stmt = $db->prepare("SELECT password from Users where id = :id");
+
+            if (is_valid_password($new_password)) {
+            $stmt = $db->prepare("SELECT password from Users where id = :id");
                 try {
                     $stmt->execute([":id" => get_user_id()]);
                     $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -82,7 +85,6 @@ if (isset($_POST["save"])) {
                                 ":id" => get_user_id(),
                                 ":password" => password_hash($new_password, PASSWORD_BCRYPT)
                             ]);
-    
                             flash("Password reset", "success");
                         } else {
                             flash("Current password is invalid", "warning");
@@ -91,9 +93,9 @@ if (isset($_POST["save"])) {
                 } catch (Exception $e) {
                     echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
                 }
-            }else{
-                flash("Invalid password", "warning");
 
+            } else {
+                flash("Invalid password", "warning");
             }
         } else {
             flash("New passwords don't match", "warning");
@@ -106,31 +108,51 @@ if (isset($_POST["save"])) {
 $email = get_user_email();
 $username = get_username();
 ?>
-<form method="POST" onsubmit="return validate(this);">
-    <div class="mb-3">
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" value="<?php se($email); ?>" />
-    </div>
-    <div class="mb-3">
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username" value="<?php se($username); ?>" />
-    </div>
-    <!-- DO NOT PRELOAD PASSWORD -->
-    <div>Password Reset</div>
-    <div class="mb-3">
-        <label for="cp">Current Password</label>
-        <input type="password" name="currentPassword" id="cp" />
-    </div>
-    <div class="mb-3">
-        <label for="np">New Password</label>
-        <input type="password" name="newPassword" id="np" />
-    </div>
-    <div class="mb-3">
-        <label for="conp">Confirm Password</label>
-        <input type="password" name="confirmPassword" id="conp" />
-    </div>
-    <input type="submit" value="Update Profile" name="save" />
-</form>
+<div class="container-fluid">
+    <h1>Profile</h1>
+    <form method="POST" onsubmit="return validate(this);">
+        <div class="mb-3">
+            <label class="form-label" for="email">Email</label>
+            <input class="form-control" type="email" name="email" id="email" value="<?php se($email); ?>" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="username">Username</label>
+            <input class="form-control" type="text" name="username" id="username" value="<?php se($username); ?>" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="privacy">Privacy</label>
+            <?php 
+            //fetch current privacy setting
+            $db = getDB();
+            $stmt = $db->prepare("SELECT privacy from Users where id = :id");
+            $stmt->execute([":id" => get_user_id()]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            ?>
+            <select class="form-select" name="privacy" id="privacy">
+                <option value="<?php $result["privacy"] == 0 ? 0 : 1; ?>" >Current: <?php echo ($result["privacy"] == 0 ? "Private" : "Public"); ?></option>
+                <option value="0">Private</option>
+                <option value="1">Public</option>
+            </select>
+        </div>
+
+        <!-- DO NOT PRELOAD PASSWORD -->
+        <div class="mb-3">Password Reset</div>
+        <div class="mb-3">
+            <label class="form-label" for="cp">Current Password</label>
+            <input class="form-control" type="password" name="currentPassword" id="cp" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="np">New Password</label>
+            <input class="form-control" type="password" name="newPassword" id="np" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="conp">Confirm Password</label>
+            <input class="form-control" type="password" name="confirmPassword" id="conp" />
+        </div>
+        <input type="submit" class="mt-3 btn btn-primary" value="Update Profile" name="save" />
+    </form>
+</div>
 
 <script>
     function validate(form) {
